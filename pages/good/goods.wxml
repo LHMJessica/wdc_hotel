@@ -1,0 +1,48 @@
+<!--pages/good/goods.wxml-->
+<!--商品轮播图-->
+<swiper class="screen-swiper square-dot bg-white" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+  <swiper-item wx:for="{{3}}" wx:key="index">
+    <image src="{{goods.sp_img}}"></image>
+  </swiper-item>
+</swiper>
+
+<!--商品价格-->
+<view class="bg-white canui-goods-box" style="padding-top:30rpx;">
+  <text class="text-price text-red text-xl">${{goods.dollar_price}}</text>
+  <view class="cu-capsule radius" wx:if="{{item.discount<1}}">
+    <view class="cu-tag bg-brown sm">
+      <text>折</text>
+    </view>
+    <view class="cu-tag line-brown sm">
+        {{goods.discount*10}}
+    </view>
+  </view>
+</view>
+
+<!--商品名称-->
+<view class="bg-white canui-goods-box canui-xzwz text-black">{{goods.sp_name}}</view>
+
+<!--商品属性-->
+<view class="bg-white grid col-3 canui-goods-box text-gray text-sm">
+  <view class='padding-sm'>规格：{{goods.sp_size}}</view>
+  <view class='padding-sm text-center'>单位：{{goods.sp_unit}}</view>
+  <view class='padding-sm text-right'>送货上门</view>
+</view> 
+
+<!--商品详情-->
+<view class="cu-bar bg-white margin-top solid-bottom">
+  <view class='action'>
+    <text class='icon-title text-red'></text>
+    <text>商品详情</text>
+  </view>
+</view>
+<view class="bg-white padding cauni-details-box">暂无内容</view>
+
+<import src="../copyright/copyright.wxml" />
+<template is="copyright" />
+<!--TabbarBot为适配全面屏的，如果是全面屏，则底部多出一截空白-->
+<view class="cu-bar bg-white tabbar border shop canui-foor-fixed">
+  <view class='btn-group'>
+    <button class='cu-btn bg-orange round shadow-blur' bindtap='toaffirmorder'>立即购买</button>
+  </view>
+</view>

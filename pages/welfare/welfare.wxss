@@ -1,0 +1,11 @@
+/* pages/welfare/welfare.wxss */
+.shop-img {
+  width: 100%;
+  display: inline-block;
+  border: 1px #eee solid;
+  height: 284rpx;
+}
+.flex-sub{
+  width: 47%;
+  display: inline-block;
+}

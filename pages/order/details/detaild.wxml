@@ -1,0 +1,105 @@
+<!--pages/order/details/detaild.wxml-->
+<view class="padding canui-card-fiex-radius-box"  wx:if="{{order.status==1 || order.status==2 || order.status==5 || order.status==6}}">
+  <view class="cu-list menu bg-white">
+    <view class="cu-item">
+      <view class='content'>
+        <view class="canui-xzwz text-df"> 当前设备共有{{rownumsize}}份订单在派送，您是第{{index}}位</view>
+      </view>
+      <view class='action'>
+        <view class='text-grey icon-right'></view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="bg-white canui-goods-box">
+  <view class="canui-card-order">
+    <view class="canui-order-item bg-white" wx:for="{{orderdetail}}" wx:for-item="item" wx:key="unique">
+      <view class="cu-list menu menu-avatar">
+        <navigator open-type="navigate" class="cu-item" hover-class='none' url="../../good/goods?gooddid={{}}">
+          <view class="cu-avatar radius lg">
+          <image src='{{item.shop_img}}' mode='aspectFit' lazy-load></image>
+        </view>
+          <view class='content canui-xzwz tow'>{{item.sp_name}}</view>
+          <view class='action'>
+            <view class='text-price'>${{item.dollar_price}}</view>
+            <view class="text-xs text-right text-gray">x{{item.qty}}</view>
+          </view>
+        </navigator>
+      </view>
+    </view>
+  </view>
+
+  <view class="text-gray text-sm solid-bottom order-price-log">
+    <view class="log-list">
+      <text>商品总价</text>
+      <text class="text-price canui-text-right">￥{{order.pay_money}}</text>
+    </view>
+    <view class="log-list bg-white text-df">
+      <text>订单总价</text>
+      <text class="text-sm text-gray"></text>
+      <text class="text-price canui-text-right">￥{{order.pay_money}}</text>
+    </view>
+  </view>
+  <!-- <view class="order-price-log-zj">
+    <text>消费积分</text>
+    <text class="text-price canui-text-right text-red">￥{{order.pay_money}}</text>
+  </view> -->
+</view>
+<view class="cu-bar bg-white margin-top" wx:if="{{order.status==5}}">
+  <view class="action">
+    <text class="cuIcon-title text-blue"></text>取货码
+  </view>
+</view>
+<view class="bg-img" wx:if="{{order.status==5}}" style="background-image: url('http://www.fujinsoftware.com:8080/znhotel_cloud/barCodeApi?data={{order.order_code}}');height: 414rpx;background-size:auto;">
+</view><!-- 
+<view class="margin-top order-address-box">
+  <view class="cu-list menu bg-white">
+    <view class="cu-item">
+      <view class='content'>
+        <view class="text-df">收货人
+          <text>13800138000</text>
+        </view>
+        <view class='text-gray text-sm canui-xzwz'>地址：重庆市某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某</view>
+      </view>
+    </view>
+  </view>
+</view> -->
+
+<view class="margin-top margin-bottom-xl bg-white order-details-log">
+  <view class="order-menu-list solid-bottom">
+    <view class="log-list bg-white text-df">
+      <text>订单编号：</text>
+      <text class="text-gray">{{order.order_code}}</text>
+    </view>
+    <view class="log-list bg-white text-df">
+      <text>下单时间：</text>
+      <text class="text-gray">{{order.creation_time}}</text>
+    </view>
+    <view class="log-list bg-white text-df">
+      <text>酒店名称：</text>
+      <text class="text-gray">{{order.hotal_name}}</text>
+    </view>
+    <view class="log-list bg-white text-df">
+      <text>酒店地址：</text>
+      <text class="text-gray">{{order.hotal_address}}</text>
+    </view>
+    <view class="log-list bg-white text-df">
+      <text>房间编号：</text>
+      <text class="text-gray">{{order.room_name}}</text>
+    </view>
+  </view>
+</view>
+<view class="canui-foor-fixed bg-white">
+  <view class="grid col-4 flex justify-end order-btn-box">
+    <view class='margin-tb-sm text-center'>
+      <button class='cu-btn round line-gray shadow' wx:if="{{order.status==3||order.status==1}}">删除订单</button>
+    </view>
+    <view class='margin-tb-sm text-center'wx:if="{{order.status==4}}">
+      <button class='cu-btn round line-gray shadow'>取消订单</button>
+    </view>
+    <view class='margin-tb-sm text-center' wx:if="{{order.status==4}}">
+      <button class='cu-btn round line-red shadow' bindtap='payOrder'>付款</button>
+    </view>
+  </view>
+</view>

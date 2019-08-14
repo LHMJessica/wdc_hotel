@@ -1,0 +1,17 @@
+<!--pages/owner/login/login.wxml-->
+<view class="cu-card case">
+  <view class="cu-item shadow">
+    <view class="image">
+      <image src="/resources/images/logo.jpg" mode="widthFix"></image>
+    </view>
+    <view class="cu-list menu-avatar">
+      <view class="cu-item">
+        <view class="content">
+          <button class="cu-btn bg-red margin-tb-sm lg" open-type="getUserInfo" bindgetuserinfo="getUserInfo">登录</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<import src="../../copyright/copyright.wxml" />
+<template is="copyright" />

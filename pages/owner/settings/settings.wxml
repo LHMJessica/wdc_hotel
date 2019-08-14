@@ -1,0 +1,4 @@
+<!--pages/owner/settings/settings.wxml-->
+<text>pages/owner/settings/settings.wxml</text>
+<import src="../../copyright/copyright.wxml" />
+<template is="copyright" />

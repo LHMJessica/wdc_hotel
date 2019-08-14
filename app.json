@@ -1,0 +1,57 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/order/order",
+    "pages/owner/owner",
+    "pages/welfare/welfare",
+    "pages/good/goods",
+    "pages/order/details/detaild",
+    "pages/order/affirm/affirm",
+    "pages/owner/message/message",
+    "pages/owner/settings/settings",
+    "pages/owner/login/login",
+    "pages/copyright/copyright"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#000000",
+    "navigationBarTitleText": "快乐小商店",
+    "navigationBarTextStyle": "white"
+  },
+  "usingComponents": {
+    "cu-custom": "/resources/components/cu-custom"
+  },
+  "tabBar": {
+    "color": "#000",
+    "selectedColor": "#f0145a",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/home/home",
+        "iconPath": "resources/images/home.png",
+        "selectedIconPath": "resources/images/home-selected.png"
+      },
+      {
+        "text": "好福利",
+        "pagePath": "pages/welfare/welfare",
+        "iconPath": "resources/images/goodwelfare.png",
+        "selectedIconPath": "resources/images/goodwelfare-selected.png"
+      },
+      {
+        "text": "订单",
+        "pagePath": "pages/order/order",
+        "iconPath": "resources/images/order.png",
+        "selectedIconPath": "resources/images/order-selected.png"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/owner/owner",
+        "iconPath": "resources/images/owner.png",
+        "selectedIconPath": "resources/images/owner-selected.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

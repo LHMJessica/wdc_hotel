@@ -1,0 +1,7 @@
+/* pages/owner/login/login.wxss */
+.cu-btn{
+  width: 100%;
+}
+.cu-list .cu-item{
+  text-align: center;
+}

@@ -1,0 +1,152 @@
+/* pages/order/details/detaild.wxss */
+.cu-custom .cu-bar{
+    padding-right:inherit;
+    background-image:linear-gradient(90deg, #FA9C05, #F36302);
+}
+.canui-order-details-head{
+    background-image:linear-gradient(90deg, #FA9C05, #F36302);
+    color:#F1f1f6;
+    height:230rpx;
+    padding-top:20rpx;
+}
+.canui-order-details-head .cu-list.menu>.cu-item{
+    background:initial;
+}
+.canui-order-details-head .cu-list .cu-item .action{
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width:142rpx;
+    height:92rpx;
+}
+.canui-card-fiex-radius-box{
+    width:100%;
+    z-index:9;
+}
+.canui-card-fiex-radius-box .cu-list{
+    border-radius:18rpx;
+    box-shadow:0 3rpx 6rpx rgba(0, 0, 0, 0.1);
+}
+.canui-card-fiex-radius-box .cu-list.menu>.cu-item{
+    padding:30rpx;
+}
+.canui-goods-box{
+    z-index:999;
+    top:120rpx;
+}
+.canui-card-order{
+    padding:0 20rpx;
+}
+.canui-card-order .canui-order-item{
+    position: relative;
+    margin-bottom:30rpx;
+    padding:20rpx;
+}
+.head-title-box .icon-shop{
+    margin-right:10rpx;
+}
+.head-title-box .icon-right{
+    margin-left:5rpx;
+}
+.canui-order-item .cu-list.menu-avatar>.cu-item{
+    padding:0;
+    padding-left:110rpx;
+}
+.canui-order-item .cu-list.menu-avatar>.cu-item>.cu-avatar{
+    left:0rpx;
+}
+.canui-order-item .cu-list .cu-item .canui-xzwz{
+    -webkit-line-clamp:2;
+}
+.canui-order-item .cu-list.menu>.cu-item .content{
+    font-size:27rpx;
+    margin-right:40rpx;
+}
+.canui-order-item .cu-list.menu-avatar>.cu-item .action {
+    text-align:right;
+    margin-top:-10rpx;
+    position: absolute;
+    right: 0;
+}
+.canui-order-item .cu-list.menu>.cu-item .action .text-price{
+    font-size:28rpx;
+}
+.canui-order-item .order-price-box{
+    text-align:right;
+    font-size:26rpx;
+}
+.order-price-log{
+    padding:0 30rpx;
+    padding-bottom:10rpx;
+    margin-top:-30rpx;
+}
+.order-price-log .log-list{
+    padding:5rpx 0;
+}
+.order-price-log-zj{
+    padding:20rpx 30rpx;
+    background:#fafafa;
+}
+.order-address-box .cu-list.menu>.cu-item{
+    padding:30rpx;
+}
+.order-address-box .cu-list .cu-item .content view text{
+    margin-left: 20rpx;
+}
+
+.order-details-log{
+    padding:0 30rpx;
+    margin-bottom: 120rpx;
+}
+.order-details-log .order-menu-list{
+    padding:10rpx 0;
+}
+.order-details-log .order-menu-list .log-list{
+    padding:10rpx 0;
+}
+.order-details-log .order-menu-list .log-list text + text{
+    margin-left:20rpx;
+}
+
+.order-contact-box{
+    padding:0 30rpx;
+}
+.order-contact-box .contact-table{
+    text-align:center;
+    padding:20rpx 0;
+}
+.order-contact-box .contact-table text{
+    font-size:34rpx;
+}
+.order-contact-box .contact-table + .contact-table{
+    border-left: 1px solid #f1f1f1;
+}
+
+.box .order-price-log-zj + .order-price-log-zj{
+    padding-top: 0;
+}
+.order-btn-box{
+    height:100rpx;
+}
+.order-btn-box .margin-tb-sm{
+    margin-bottom:0;
+}
+.order-btn-box .margin-tb-sm .cu-btn{
+    font-size:24rpx;
+}
+.order-btn-box .margin-tb-sm .cu-btn[class*="line"]::after {
+    /*按钮边框大小*/
+    border: 3rpx solid currentColor;
+}
+.order-btn-box .margin-tb-sm .line-gray{
+    color: #666;
+}
+.order-btn-box .margin-tb-sm + .margin-tb-sm{
+    margin-left: 10rpx;
+}
+.contact-btn {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  padding: 0 0;
+  opacity: 0.5;
+}

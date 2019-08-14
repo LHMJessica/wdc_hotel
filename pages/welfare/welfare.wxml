@@ -1,0 +1,31 @@
+<!--pages/welfare/welfare.wxml-->
+<view class="cu-bar bg-white margin-top solid-bottom">
+  <view class="action">
+    <view wx:if="{{sp_catalogs.length<=0}}"><text class="cuIcon-title text-red" ></text>这里没有你要的东西哦~</view>
+   <view wx:else> <text class="cuIcon-title text-blue" ></text>商品列表</view>
+  </view>
+</view>
+<view class="padding-sm bg-white">
+   <scroll-view scroll-y style='padding:0 0;'>    
+    <view class="flex-sub margin-xs radius" bindtap='toshopdetail' wx:for="{{sp_catalogs}}" wx:for-item="item" wx:key wx:key data-goodid="{{item.sp_id}}">
+      <image class='shop-img' src="{{item.sp_img}}"></image>
+      <view class='text-darkGray'>{{item.sp_name}}</view>
+      <view class='flex margin-xs'>
+        <view class='flex-sub text-pink'>${{item.dollar_price}}</view>
+        <view class='flex-sub' wx:if="{{item.discount<1}}">
+          <view class="cu-capsule radius">
+            <view class="cu-tag bg-brown sm">
+              <text>折</text>
+            </view>
+            <view class="cu-tag line-brown sm">
+              {{item.discount*10}}
+            </view>
+          </view>
+        </view>
+
+      </view>
+    </view>
+  </scroll-view>
+</view>
+<import src="../copyright/copyright.wxml" />
+<template is="copyright" />

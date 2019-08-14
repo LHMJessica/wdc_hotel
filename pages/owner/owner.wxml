@@ -1,0 +1,43 @@
+<!--pages/owner/owner.wxml-->
+<scroll-view scroll-y class="scrollPage">
+  <view class="UCenter-bg">
+    <image src="{{user.account_img}}" class="png user-icon"></image>
+    <view class="text-xl">{{user.account_name}}</view>
+    <image src="https://image.weilanwl.com/gif/wave.gif" mode="scaleToFill" class="gif-wave"></image>
+  </view>
+  <view class="padding flex text-center text-grey bg-white shadow-warp">
+    <view class="flex flex-sub flex-direction solid-right">
+      <view class="text-xxl text-orange">{{user.total_score}}</view>
+      <view class="margin-top-sm">
+        <text class="cuIcon-evaluate text-gray"></text>积分</view>
+    </view>
+    <view class="flex flex-sub flex-direction">
+      <view class="text-xxl text-blue">{{user.total_money}}</view>
+      <view class="margin-top-sm">
+        <text class="cuIcon-favorfill text-gray"></text>总消费</view>
+    </view>
+  </view>
+  <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
+    <view class="cu-item arrow">
+      <button class="cu-btn content" open-type="contact">
+        <text class="cuIcon-profile text-olive"></text>
+        <text class="text-grey">联系客服</text>
+      </button>
+    </view>
+    <view class="cu-item arrow">
+      <navigator class="content" url="../owner/message/message" hover-class="none">
+        <text class="cuIcon-formfill text-green"></text>
+        <text class="text-grey">消息通知</text>
+        <view class="cu-tag round bg-red sm">{{readcount}}</view>
+      </navigator>
+    </view>
+    <view class="cu-item arrow">
+      <navigator class="content" url="../owner/settings/settings" hover-class="none">
+        <text class="cuIcon-formfill text-green"></text>
+        <text class="text-grey">设置</text>
+      </navigator>
+    </view>
+  </view>
+</scroll-view>
+<import src="../copyright/copyright.wxml" />
+<template is="copyright" />

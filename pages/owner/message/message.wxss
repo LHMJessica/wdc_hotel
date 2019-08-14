@@ -1,0 +1,4 @@
+/* pages/owner/message/message.wxss */
+.btns{
+  font-size: 40rpx;
+}

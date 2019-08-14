@@ -1,0 +1,23 @@
+/* pages/home/home.wxss */
+
+.shop-img {
+  width: 100%;
+  display: inline-block;
+  border: 1px #eee solid;
+  height: 284rpx;
+}
+.flex-sub{
+  width: 47%;
+  display: inline-block;
+}
+.nav{
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+}
+.search{
+  margin-top: 100rpx;
+}
+.margin-top{
+  margin-top: 10rpx;
+}

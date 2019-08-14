@@ -1,0 +1,85 @@
+<view class="padding canui-card-fiex-radius-box" bindtap='toscan' wx:if="{{address ==null}}">
+  <view class="cu-list menu bg-white">
+    <view class="cu-item">
+      <view class='content'>
+        <view class="canui-xzwz text-df">点击此处扫码获取您的位置</view>
+      </view>
+      <view class='action'>
+        <view class='text-grey icon-right'></view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="padding canui-card-fiex-radius-box" wx:if="{{address!=null}}">
+  <view class="cu-list menu bg-white">
+    <view class="cu-item">
+      <view class='content'>
+        <view class="canui-xzwz text-df">{{address.hotal_address}}</view>
+        <view class='text-gray text-sm'>{{address.floor}}楼{{address.room}}</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="canui-card-order">
+  <view class="canui-order-item bg-white">
+    <view class="cu-list menu menu-avatar">
+      <navigator open-type="navigate" class="cu-item" hover-class='none' url="../good/goods">
+        <view class="cu-avatar radius lg">
+          <image src='{{goods.sp_img}}' mode='aspectFit' lazy-load></image>
+        </view>
+        <view class='content canui-xzwz tow'>{{goods.sp_name}}</view>
+        <view class='action'>
+          <view class='text-price'>${{goods.dollar_price}}</view>
+          <!-- <view class="text-xs text-right text-gray">x1</view> -->
+        </view>
+      </navigator>
+    </view>
+  </view>
+</view>
+
+<!--  <view class="canui-coupon">
+        <view class="cu-list menu bg-white solid-bottom canui-selet">
+            <view class="cu-item arrow">
+                <view class='content'>优惠券</view>
+                <view class='action'>
+                    无可用
+                </view>
+            </view>
+        </view>
+    </view> -->
+
+<view class="order-price-log">
+  <view class="bg-white log-card">
+    <view class="log-list">
+      <text>商品数量</text>
+      <view class="stepper canui-text-right">
+        <!-- 减号 -->
+        <text class="sign {{goods.count <= 1 ? 'disabled' : 'normal'}}" bindtap="delCount" data-index="{{index}}">-</text>
+        <!-- 数值 -->
+        <input class="number" type="number" bindchange="bindManual" value="{{goods.count}}" disabled="disabled" />
+        <!-- 加号 -->
+        <text class="sign {{goods.count >= 10 ? 'disabled' : 'normal'}}" bindtap="addCount" data-index="{{index}}">+</text>
+      </view>
+    </view>
+    <view class="log-list">
+      <text>商品总价</text>
+      <text class="text-price canui-text-right">${{goods.totalMoney}}</text>
+    </view>
+    <view class="log-list" wx:if="{{goods.discount<1}}">
+      <text>优惠</text>
+      <text class="text-price canui-text-right text-red">-￥{{goods.reduced}}</text>
+    </view>
+    <view class="log-list bg-white text-df">
+      <text>订单总价</text>
+      <text class="text-price canui-text-right text-red">￥{{goods.money}}</text>
+    </view>
+  </view>
+</view>
+
+<view class="bg-white canui-foor-fixed canui-submit-view canui-submit-order">
+  <view class="canui-submit">
+    <text class='text-red text-price canui-price'>￥{{goods.money}}</text>
+    <text class='bg-red canui-submit-btn' bindtap='submitOrder'>提交订单</text>
+  </view>
+</view>
