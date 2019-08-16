@@ -28,7 +28,7 @@
       <navigator class="content" url="../owner/message/message" hover-class="none">
         <text class="cuIcon-formfill text-green"></text>
         <text class="text-grey">消息通知</text>
-        <view class="cu-tag round bg-red sm">{{readcount}}</view>
+        <view class="cu-tag round bg-red sm" wx:if="{{readcount!=0}}">{{readcount}}</view>
       </navigator>
     </view>
     <view class="cu-item arrow">
