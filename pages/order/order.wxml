@@ -4,7 +4,10 @@
     {{item.type_name}}
   </view>
 </scroll-view>
-<scroll-view scroll-y class="canui-card-order margin-top">
+<view class="bg-white nodata" wx:if="{{orders.length<=0}}">
+  <view class="text-center padding">暂无数据</view>
+</view>
+<scroll-view scroll-y class="canui-card-order margin-top" wx:else>
   <view class="canui-order-item bg-white"  wx:for="{{orders}}" wx:for-item="item" wx:key>
     <navigator open-type="navigate" hover-class='none' url="/pages/order/details/detaild?orderid={{item.order_id}}">
       <view class="cu-list menu menu-avatar">
@@ -14,7 +17,7 @@
           </view>
           <view class='content canui-xzwz tow'>{{item.sp_name}}</view>
           <view class='action '>
-            <view class='text-price text-right'>${{item.dollar_price}}</view>
+            <view class='text-price text-right'>{{item.sale_price}}</view>
             <view class="text-xs text-gray">x{{item.qty}}</view>
           </view>
         </view>
@@ -22,14 +25,17 @@
     </navigator>
     <view class="order-price-box">
       共{{item.qty}}件商品 合计：
-      <text class="text-price">￥{{item.sale_price}}</text>
+      <text class="text-price">{{item.sale_price}}</text>
     </view>
     <view class="grid col-4 flex justify-end order-btn-box">
       <view class='margin-tb-sm text-center' wx:if="{{item.status==4}}">
-        <button class='cu-btn round line-gray shadow'>取消订单</button>
+        <button class='cu-btn round line-gray shadow' bindtap='cancelorder' data-idx='{{item.order_id}}'>取消订单</button>
       </view>
-      <view class='margin-tb-sm text-center' wx:if="{{item.status==4}}">
-        <button class='cu-btn round line-red shadow'>付款</button>
+      <view class='margin-tb-sm text-center' wx:elif="{{item.status==3}}">
+        <button class='cu-btn round line-red shadow'>删除订单</button>
+      </view>
+      <view class='margin-tb-sm text-center' wx:else>
+        <button class='cu-btn round line-red shadow' bindtap='toorderdetail' data-idx='{{item.order_id}}'>查看详情</button>
       </view>
     </view>
   </view>

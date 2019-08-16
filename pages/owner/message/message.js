@@ -39,5 +39,23 @@ Page({
         }
       });
     });
+  },
+  setmessage:function(e){
+    var message_id= e.currentTarget.dataset.idx;
+    var that=this;
+    var params = config.service.host + "funid=app_full&eventcode=setMessage&message_id=" + message_id;
+    $ajax._post(params, function (res) {
+      that.qryNoreadMessage();
+    }, function (error) {
+      wx.showToast({
+        title: '请求失败了!',
+        icon: 'none',
+        duration: 5000,
+        success: function (res) {
+          //  同步清理本地缓存
+          // wx.clearStorageSync();
+        }
+      });
+    });
   }
 })

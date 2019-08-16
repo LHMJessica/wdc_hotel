@@ -1,4 +1,4 @@
-<view class="padding canui-card-fiex-radius-box" bindtap='toscan' wx:if="{{address ==null}}">
+<view class="padding canui-card-fiex-radius-box" bindtap='toscan' wx:if="{{address ==null && goods.status == 1}}">
   <view class="cu-list menu bg-white">
     <view class="cu-item">
       <view class='content'>
@@ -10,7 +10,19 @@
     </view>
   </view>
 </view>
-<view class="padding canui-card-fiex-radius-box" wx:if="{{address!=null}}">
+<view class="padding canui-card-fiex-radius-box" bindtap='chooseaddress' wx:if="{{address ==null && goods.status == 0}}">
+  <view class="cu-list menu bg-white">
+    <view class="cu-item">
+      <view class='content'>
+        <view class="canui-xzwz text-df">点击此处选择收货地址</view>
+      </view>
+      <view class='action'>
+        <view class='text-grey icon-right'></view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="padding canui-card-fiex-radius-box" wx:if="{{address!=null  && goods.status == 1}}">
   <view class="cu-list menu bg-white">
     <view class="cu-item">
       <view class='content'>
@@ -20,17 +32,26 @@
     </view>
   </view>
 </view>
-
+<view class="padding canui-card-fiex-radius-box" wx:if="{{address!=null  && goods.status == 0}}">
+  <view class="cu-list menu bg-white">
+    <view class="cu-item">
+      <view class='content'>
+        <view class="canui-xzwz text-df">{{address.full_address}}</view>
+        <view class='text-gray text-sm'>{{address.contact}}     {{address.phone}}</view>
+      </view>
+    </view>
+  </view>
+</view>
 <view class="canui-card-order">
   <view class="canui-order-item bg-white">
     <view class="cu-list menu menu-avatar">
-      <navigator open-type="navigate" class="cu-item" hover-class='none' url="../good/goods">
+      <navigator open-type="navigate" class="cu-item" hover-class='none' url="../../good/goods?goodid={{goods.sp_id}}">
         <view class="cu-avatar radius lg">
           <image src='{{goods.sp_img}}' mode='aspectFit' lazy-load></image>
         </view>
         <view class='content canui-xzwz tow'>{{goods.sp_name}}</view>
         <view class='action'>
-          <view class='text-price'>${{goods.dollar_price}}</view>
+          <view class='text-price'>{{goods.sale_price}}</view>
           <!-- <view class="text-xs text-right text-gray">x1</view> -->
         </view>
       </navigator>
@@ -64,22 +85,22 @@
     </view>
     <view class="log-list">
       <text>商品总价</text>
-      <text class="text-price canui-text-right">${{goods.totalMoney}}</text>
+      <text class="text-price canui-text-right dollar-price">{{goods.totalMoney}}</text>
     </view>
     <view class="log-list" wx:if="{{goods.discount<1}}">
       <text>优惠</text>
-      <text class="text-price canui-text-right text-red">-￥{{goods.reduced}}</text>
+      <text class="canui-text-right text-red">-<text class='text-price'>{{goods.reduced}}</text></text>
     </view>
     <view class="log-list bg-white text-df">
       <text>订单总价</text>
-      <text class="text-price canui-text-right text-red">￥{{goods.money}}</text>
+      <text class="text-price canui-text-right text-red">{{goods.money}}</text>
     </view>
   </view>
 </view>
 
 <view class="bg-white canui-foor-fixed canui-submit-view canui-submit-order">
   <view class="canui-submit">
-    <text class='text-red text-price canui-price'>￥{{goods.money}}</text>
+    <text class='text-red text-price canui-price'>{{goods.money}}</text>
     <text class='bg-red canui-submit-btn' bindtap='submitOrder'>提交订单</text>
   </view>
 </view>

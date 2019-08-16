@@ -1,5 +1,5 @@
 <!--pages/order/details/detaild.wxml-->
-<view class="padding canui-card-fiex-radius-box"  wx:if="{{order.status==1 || order.status==2 || order.status==5 || order.status==6}}">
+<view class="padding canui-card-fiex-radius-box"  wx:if="{{order.status==1 || order.status==5 || order.status==6}}">
   <view class="cu-list menu bg-white">
     <view class="cu-item">
       <view class='content'>
@@ -16,13 +16,13 @@
   <view class="canui-card-order">
     <view class="canui-order-item bg-white" wx:for="{{orderdetail}}" wx:for-item="item" wx:key="unique">
       <view class="cu-list menu menu-avatar">
-        <navigator open-type="navigate" class="cu-item" hover-class='none' url="../../good/goods?gooddid={{}}">
+        <navigator open-type="navigate" class="cu-item" hover-class='none' url="../../good/goods?goodid={{item.shop_id}}">
           <view class="cu-avatar radius lg">
           <image src='{{item.shop_img}}' mode='aspectFit' lazy-load></image>
         </view>
           <view class='content canui-xzwz tow'>{{item.sp_name}}</view>
           <view class='action'>
-            <view class='text-price'>${{item.dollar_price}}</view>
+            <view class='text-price'>{{item.sale_price}}</view>
             <view class="text-xs text-right text-gray">x{{item.qty}}</view>
           </view>
         </navigator>
@@ -33,12 +33,12 @@
   <view class="text-gray text-sm solid-bottom order-price-log">
     <view class="log-list">
       <text>商品总价</text>
-      <text class="text-price canui-text-right">￥{{order.pay_money}}</text>
+      <text class="text-price canui-text-right">{{order.pay_money}}</text>
     </view>
     <view class="log-list bg-white text-df">
       <text>订单总价</text>
       <text class="text-sm text-gray"></text>
-      <text class="text-price canui-text-right">￥{{order.pay_money}}</text>
+      <text class="text-price canui-text-right">{{order.pay_money}}</text>
     </view>
   </view>
   <!-- <view class="order-price-log-zj">
@@ -92,11 +92,11 @@
 </view>
 <view class="canui-foor-fixed bg-white">
   <view class="grid col-4 flex justify-end order-btn-box">
-    <view class='margin-tb-sm text-center'>
-      <button class='cu-btn round line-gray shadow' wx:if="{{order.status==3||order.status==1}}">删除订单</button>
+    <view class='margin-tb-sm text-center' wx:if="{{order.status==3||order.status==1}}">
+      <button class='cu-btn round line-gray shadow' >删除订单</button>
     </view>
     <view class='margin-tb-sm text-center'wx:if="{{order.status==4}}">
-      <button class='cu-btn round line-gray shadow'>取消订单</button>
+      <button class='cu-btn round line-gray shadow' bindtap='cancelorder' data-idx='{{order.order_id}}'>取消订单</button>
     </view>
     <view class='margin-tb-sm text-center' wx:if="{{order.status==4}}">
       <button class='cu-btn round line-red shadow' bindtap='payOrder'>付款</button>

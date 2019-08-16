@@ -6,18 +6,31 @@
   border: 1px #eee solid;
   height: 284rpx;
 }
-.flex-sub{
+
+.flex-sub {
   width: 47%;
   display: inline-block;
 }
-.nav{
+
+.nav {
   position: fixed;
   z-index: 9999;
   top: 0;
 }
-.search{
+
+.search {
   margin-top: 100rpx;
 }
-.margin-top{
+
+.margin-top {
   margin-top: 10rpx;
+}
+
+.sp_name {
+  width: 100%;
+  overflow: hidden;
+  font-size: large;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 32rpx;
 }

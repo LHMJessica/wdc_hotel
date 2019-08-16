@@ -15,8 +15,7 @@
       {{item.content}}
     </view>
     <view class="text-gray text-sm text-right padding btns">
-      <text class="cuIcon-delete margin-lr-xs text-red"></text>
-      <text class="cuIcon margin-lr-xs text-green">阅</text>
+      <text class="cuIcon margin-lr-xs text-green" bindtap='setmessage' data-idx='{{item.message_id}}'>阅</text>
     </view>
   </view>
 </view>

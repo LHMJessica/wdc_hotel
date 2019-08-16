@@ -85,7 +85,13 @@ Page({
     $ajax._post(params, function (res) {
       for (var i in res.data) {
         res.data[i].sp_img = config.service.host + "funid=sys_attach&pagetype=editgrid&eventcode=fdown&attach_field=sp_img&dataid=" + res.data[i].sp_id + "&table_name=sp_catalog&datafunid=sp_catalog&dataType=byte&nousercheck=1&dc=1556729137482";
-        newGoodsData.push(res.data[i]);
+        if(type_id=="1"){//状态为全部
+          if (res.data[i].status=="1"){//商品状态为设备商品  首页的全部 仅显示设备上有的商品
+            newGoodsData.push(res.data[i]);
+          }
+        }else{
+          newGoodsData.push(res.data[i]);
+        }
       }
       //  console.log(JSON.stringify(newGoodsData));   
       that.setData({

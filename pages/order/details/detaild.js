@@ -26,6 +26,7 @@ Page({
     $ajax._post(params, function (res) {
       console.log(res);
       var detail = JSON.parse(res.data.detail);
+      console.log(detail);
       var row = JSON.parse(res.data.rownum);
       var index = 0;
       for (var i in row) {
@@ -126,7 +127,39 @@ Page({
   /**
    * 取消订单
    */
-  cancelOrder: function () {
-
+  cancelorder: function (e) {
+    let order_id = e.currentTarget.dataset.idx
+    var that=this;
+    wx.showModal({
+      title: '取消订单',
+      content: '确定要取消吗？',
+      showCancel: true,//是否显示取消按钮
+      cancelText: "否",//默认是“取消”
+      cancelColor: '#f0145a',//取消文字的颜色
+      confirmText: "是",//默认是“确定”
+      confirmColor: 'skyblue',//确定文字的颜色
+      success: function (res) {
+        if (res.cancel) {
+          //点击取消,默认隐藏弹框
+        } else {
+          var params = config.service.host + "funid=app_full&eventcode=setOrder&order_id=" + order_id + "&status=7";
+          $ajax._post(params, function (res) {
+            that.onLoad();
+          }, function (error) {
+            wx.showToast({
+              title: '请求失败了!',
+              icon: 'none',
+              duration: 5000,
+              success: function (res) {
+                //  同步清理本地缓存
+                // wx.clearStorageSync();
+              }
+            });
+          });
+        }
+      },
+      fail: function (res) { },//接口调用失败的回调函数
+      complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
+    })
   }
 })

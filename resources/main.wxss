@@ -3773,7 +3773,16 @@ scroll-view.cu-steps .cu-item {
 /* ==================
           文本
  ==================== */
-
+.text-price::before {
+	content: "¥";
+	font-size: 80%;
+	margin-right: 4rpx;
+}
+.dollar-price::before {
+	content: "$";
+	font-size: 80%;
+	margin-right: 4rpx;
+}
 .text-xs {
 	font-size: 20rpx;
 }

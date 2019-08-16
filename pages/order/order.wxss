@@ -1,5 +1,5 @@
 
-.canui-card-order{
+.canui-card-order,.nodata{
     padding:0 20rpx;
     margin-top: 120rpx;
 }

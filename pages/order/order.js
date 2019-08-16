@@ -23,7 +23,6 @@ Page({
     var that = this;
     //加载navbar导航条
     that.navbarShow();
-    that.qryOrders(100);
   },
   /**
    * 生命周期函数--监听页面显示
@@ -51,13 +50,14 @@ Page({
     $ajax._post(params, function (res) {
       //console.log(JSON.stringify(res));
       var navbarsdata = [];
-      navbarsdata.push({ "type_id": "100", "type_name": '全部', seq: "" });
       for (var i in res.data) {
         navbarsdata.push({ "type_id": res.data[i].value_data, "type_name": res.data[i].display_data, seq: "" });
       }
       that.setData({
-        bars: navbarsdata
+        bars: navbarsdata,
+        TabCur: 4
       })
+      that.qryOrders(4);
     }, function (error) {
       wx.showToast({
         title: '请求失败了!',
@@ -70,6 +70,12 @@ Page({
       });
     });
   },
+  toorderdetail:function(e){
+    var order_id = e.currentTarget.dataset.idx;
+    wx.navigateTo({
+      url: "../order/details/detaild?orderid=" + order_id
+    })
+  },
   qryOrders: function (status) {
     var that = this;
     var orders = [];
@@ -80,8 +86,7 @@ Page({
       for (var i in res.data) {
         res.data[i].sp_img = config.service.host + "funid=sys_attach&pagetype=editgrid&eventcode=fdown&attach_field=sp_img&dataid=" + res.data[i].shop_id + "&table_name=sp_catalog&datafunid=sp_catalog&dataType=byte&nousercheck=1&dc=1556729137482";
         orders.push(res.data[i]);
-      }  
-      console.log(orders);
+      } 
       that.setData({
         orders: orders
       })
@@ -96,5 +101,40 @@ Page({
         }
       });
     });
+  },
+  cancelorder:function(e){
+    var that = this;
+    let order_id = e.currentTarget.dataset.idx
+    wx.showModal({
+      title: '取消订单',
+      content: '确定要取消吗？',
+      showCancel: true,//是否显示取消按钮
+      cancelText: "否",//默认是“取消”
+      cancelColor: '#f0145a',//取消文字的颜色
+      confirmText: "是",//默认是“确定”
+      confirmColor: 'skyblue',//确定文字的颜色
+      success: function (res) {
+        if (res.cancel) {
+          //点击取消,默认隐藏弹框
+        } else {
+          var params = config.service.host + "funid=app_full&eventcode=setOrder&order_id=" + order_id+"&status=7";
+          $ajax._post(params, function (res) {
+            that.onLoad();
+          }, function (error) {
+            wx.showToast({
+              title: '请求失败了!',
+              icon: 'none',
+              duration: 5000,
+              success: function (res) {
+                //  同步清理本地缓存
+                // wx.clearStorageSync();
+              }
+            });
+          });
+        }
+      },
+      fail: function (res) { },//接口调用失败的回调函数
+      complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
+    })
   }
 })

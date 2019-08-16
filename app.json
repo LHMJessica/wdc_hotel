@@ -14,9 +14,9 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#000000",
-    "navigationBarTitleText": "快乐小商店",
-    "navigationBarTextStyle": "white"
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTitleText": "小万嗨嗨商城",
+    "navigationBarTextStyle": "black"
   },
   "usingComponents": {
     "cu-custom": "/resources/components/cu-custom"

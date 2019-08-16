@@ -1,15 +1,15 @@
 <!--pages/good/goods.wxml-->
 <!--商品轮播图-->
 <swiper class="screen-swiper square-dot bg-white" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
-  <swiper-item wx:for="{{3}}" wx:key="index">
-    <image src="{{goods.sp_img}}"></image>
+  <swiper-item wx:for="{{goods.imgurls}}" wx:for-item="item" wx:key="index">
+    <image src="{{item.url}}"></image>
   </swiper-item>
 </swiper>
 
 <!--商品价格-->
 <view class="bg-white canui-goods-box" style="padding-top:30rpx;">
-  <text class="text-price text-red text-xl">${{goods.dollar_price}}</text>
-  <view class="cu-capsule radius" wx:if="{{item.discount<1}}">
+  <text class="text-price text-red text-xl">{{goods.sale_price}}</text>
+  <view class="cu-capsule radius" wx:if="{{goods.discount<1}}">
     <view class="cu-tag bg-brown sm">
       <text>折</text>
     </view>
@@ -26,7 +26,8 @@
 <view class="bg-white grid col-3 canui-goods-box text-gray text-sm">
   <view class='padding-sm'>规格：{{goods.sp_size}}</view>
   <view class='padding-sm text-center'>单位：{{goods.sp_unit}}</view>
-  <view class='padding-sm text-right'>送货上门</view>
+  <view class='padding-sm text-right' wx:if="{{goods.status==0}}">邮寄配送</view>
+   <view class='padding-sm text-right' wx:else>酒店配送</view>
 </view> 
 
 <!--商品详情-->
@@ -36,7 +37,8 @@
     <text>商品详情</text>
   </view>
 </view>
-<view class="bg-white padding cauni-details-box">暂无内容</view>
+<view class="bg-white padding cauni-details-box" wx:if="{{goods.sp_desc == ''}}">暂无内容</view>
+<view class="bg-white padding cauni-details-box" wx:else>{{goods.sp_desc}}</view>
 
 <import src="../copyright/copyright.wxml" />
 <template is="copyright" />

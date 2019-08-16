@@ -84,7 +84,6 @@ Page({
     var user = wx.getStorageSync("user");
     var params = config.service.host + "funid=app_full&eventcode=qryonlineDevice";
     $ajax._post(params, function (res) {
-      console.log(res.data);
       that.setData({
         devices: res.data
       })
@@ -136,6 +135,7 @@ Page({
     $ajax._post(params, function (res) {
       console.log(res)
       if (res.success) {
+        wx.removeStorageSync("goods");
         var order_id = res.data.data;
         wx.redirectTo({
           ///pages/order/details/detaild?orderid={{item.order_id}}
@@ -145,5 +145,39 @@ Page({
     }, function () {
 
     });
+  },
+  chooseaddress:function(){
+    var that=this;
+    wx.authorize({
+      scope: 'scope.address',
+      success(res) {
+        wx.chooseAddress({
+          success: function (res) {
+            let address={
+              "contact":res.userName,
+              "phone":res.telNumber,
+              "province":res.provinceName,
+              "city":res.cityName,
+              "area":res.countyName,
+              "detailed":res.detailInfo,
+              "full_address": res.provinceName + res.cityName + res.countyName + res.detailInfo
+            }
+            that.setData({
+              address: address
+            });
+          },
+          fail: function (err) {
+            wx.showToast({
+              title: "请尽快填写收货地址",
+              icon: "none"
+            })
+          }
+        })
+      },
+      fail(res) {
+        //用户拒绝授权后执行
+        wx.openSetting({})
+      }
+    })
   }
 })

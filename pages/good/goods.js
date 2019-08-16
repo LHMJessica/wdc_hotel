@@ -24,18 +24,25 @@ Page({
   },
   onLoad:function(options){
     var goodid=options.goodid;
-    console.log(goodid);
     this.goodsInfoShow(goodid);
   },
   goodsInfoShow: function (goodid) {
     var that = this;
     var params = config.service.host + "funid=app_full&eventcode=qryCatalogByID&sp_id=" + goodid;
     $ajax._post(params, function (res) {
-      console.log(res);
-        res.data.sp_img = config.service.host + "funid=sys_attach&pagetype=editgrid&eventcode=fdown&attach_field=sp_img&dataid=" + res.data.sp_id + "&table_name=sp_catalog&datafunid=sp_catalog&dataType=byte&nousercheck=1&dc=1556729137482";
-      that.setData({
-        goods: res.data
-      })
+      let goods=res.data;
+      goods.imgurls=[];
+      goods.sp_img = config.service.host + "funid=sys_attach&pagetype=editgrid&eventcode=fdown&attach_field=sp_img&dataid=" + goods.sp_id + "&table_name=sp_catalog&datafunid=sp_catalog&dataType=byte&nousercheck=1&dc=1556729137482";
+      let imgurl = config.service.host + "funid=sp_catalog&nousercheck=1&pagetype=grid&eventcode=showpic&tablename=sp_catalog&dataType=json&user_id=administrator&keyid=" + goods.sp_id+"&_dc=1565855835928"
+      $ajax._post(imgurl,function(obj){
+          for(var i in obj.data){
+            let url = obj.data[i].url.substr(1, obj.data[i].url.length);
+            goods.imgurls.push({ "url": config.service.service + url + "&nousercheck=1" });
+          }
+        that.setData({
+          goods: goods
+        })
+      },function(){});
     }, function (error) {
       wx.showToast({
         title: '请求失败了!',
