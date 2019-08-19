@@ -143,3 +143,8 @@
   font-size: 24rpx;
   padding: 30rpx 30rpx;
 }
+.cu-custom .cu-bar{
+    padding-right:inherit;
+    background-image:linear-gradient(186deg, #ffffff, #000000);
+    color: white;
+}

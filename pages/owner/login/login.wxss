@@ -1,7 +1,11 @@
 /* pages/owner/login/login.wxss */
 .cu-btn{
-  width: 100%;
+  width: 80%;
 }
 .cu-list .cu-item{
   text-align: center;
+}
+.cu-list.menu-avatar>.cu-item .content{
+  width: 100%;
+  left: 0;
 }

@@ -1,5 +1,8 @@
 <!--pages/order/order.wxml-->
-<scroll-view scroll-x class="bg-white nav" scroll-with-animation scroll-left="{{scrollLeft}}">
+<cu-custom bgColor="bg-gradual-pink">
+  <view slot="content">{{CustomBarText}}</view>
+</cu-custom>
+<scroll-view scroll-x class="bg-white nav" scroll-with-animation scroll-left="{{scrollLeft}}" style="top:{{CustomBar}}px;">
   <view class="cu-item {{item.type_id==TabCur?'text-pink cur':''}}" wx:for="{{bars}}" wx:for-item="item" wx:key bindtap="tabSelect" data-idx="{{item.type_id}}">
     {{item.type_name}}
   </view>

@@ -14,9 +14,10 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarBackgroundColor": "#f0145a",
     "navigationBarTitleText": "小万嗨嗨商城",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom"
   },
   "usingComponents": {
     "cu-custom": "/resources/components/cu-custom"

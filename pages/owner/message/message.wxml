@@ -1,5 +1,8 @@
 <!--pages/owner/message/message.wxml-->
-<view class="cu-card dynamic {{isCard?'no-card':''}}">
+<cu-custom isBack="{{true}}" class='text-white'>
+  <view slot="content">{{CustomBarText}}</view>
+</cu-custom>
+<view class="cu-card dynamic}}">
   <view class="cu-item shadow" wx:for="{{messages}}" wx:for-item="item" wx:key>
     <view class="cu-list">
       <view class="cu-item padding">

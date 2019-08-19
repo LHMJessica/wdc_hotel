@@ -1,4 +1,7 @@
 <!--pages/welfare/welfare.wxml-->
+<cu-custom bgColor="bg-gradual-pink">
+  <view slot="content">{{CustomBarText}}</view>
+</cu-custom>
 <view class="cu-bar bg-white margin-top solid-bottom">
   <view class="action">
     <view wx:if="{{sp_catalogs.length<=0}}"><text class="cuIcon-title text-red" ></text>这里没有你要的东西哦~</view>

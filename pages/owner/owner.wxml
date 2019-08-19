@@ -1,4 +1,7 @@
 <!--pages/owner/owner.wxml-->
+<cu-custom bgColor="bg-pink">
+  <view slot="content">{{CustomBarText}}</view>
+</cu-custom>
 <scroll-view scroll-y class="scrollPage">
   <view class="UCenter-bg">
     <image src="{{user.account_img}}" class="png user-icon"></image>

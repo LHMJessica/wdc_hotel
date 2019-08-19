@@ -1,6 +1,7 @@
 // pages/owner/owner.js
+const app=getApp();
 var utils = require('../../utils/util.js');
-var config = require('../../utils/config');
+var config = require('../../utils/config.js');
 var $ajax = require('../../utils/ajax.js');
 Page({
 
@@ -8,7 +9,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    StatusBar: app.globalData.StatusBar,
+    CustomBar: app.globalData.CustomBar,
+    CustomBarText: "我的"
   },
 
   /**
@@ -17,14 +20,15 @@ Page({
   onLoad: function (options) {
 
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  onPullDownRefresh: function () {
+    console.log('--------下拉刷新-------')
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    var that = this;
+    that.getNoread();
+    // complete
+    wx.hideNavigationBarLoading() //完成停止加载
+    wx.stopPullDownRefresh() //停止下拉刷新
   },
-
   /**
    * 生命周期函数--监听页面显示
    */
@@ -38,12 +42,14 @@ Page({
       this.setData({
         user: user
       });
-      this.getNoread();
     } else {
       wx.redirectTo({
         url: '../owner/login/login'
       })
     }
+  },
+  onReady:function(){
+    this.getNoread();
   },
   getNoread:function(){
     var that = this;

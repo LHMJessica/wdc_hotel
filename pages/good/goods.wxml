@@ -1,50 +1,104 @@
-<!--pages/good/goods.wxml-->
-<!--商品轮播图-->
-<swiper class="screen-swiper square-dot bg-white" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
-  <swiper-item wx:for="{{goods.imgurls}}" wx:for-item="item" wx:key="index">
-    <image src="{{item.url}}"></image>
-  </swiper-item>
-</swiper>
-
-<!--商品价格-->
-<view class="bg-white canui-goods-box" style="padding-top:30rpx;">
-  <text class="text-price text-red text-xl">{{goods.sale_price}}</text>
-  <view class="cu-capsule radius" wx:if="{{goods.discount<1}}">
-    <view class="cu-tag bg-brown sm">
-      <text>折</text>
-    </view>
-    <view class="cu-tag line-brown sm">
-        {{goods.discount*10}}
-    </view>
+<view class='cu-custom'>
+  <view class="cu-bar fixed" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+    <navigator class='action text-white' open-type="navigateBack" delta="1" hover-class="none">
+      <text class='cuIcon-back'></text> 返回
+    </navigator>
+    <scroll-view class="nav" scroll-x scroll-with-animation scroll-left="{{scrollLeft}}">
+      <view class="cu-item {{index==TabCur?'text-white cur':''}}" wx:for="{{list}}" wx:key bindtap='tabSelect' data-id="{{index}}">
+        {{item.name}}
+      </view>
+    </scroll-view>
   </view>
 </view>
+<view class="HorizontalBox">
+  <scroll-view class="HorizontalMain" scroll-y scroll-with-animation scroll-into-view="main-{{MainCur}}" bindscroll="HorizontalMain">
+    <view class="margin-bottom" wx:key id="main-0">
+      <swiper class="screen-swiper square-dot bg-white" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+        <swiper-item wx:for="{{goods.imgurls}}" wx:for-item="item" wx:key="index">
+          <image src="{{item.url}}" mode='scaleToFill'></image>
+        </swiper-item>
+      </swiper>
 
-<!--商品名称-->
-<view class="bg-white canui-goods-box canui-xzwz text-black">{{goods.sp_name}}</view>
+      <!--商品价格-->
+      <view class="bg-white canui-goods-box" style='padding-top:10px;'>
+        <text class="text-price text-red text-xl">{{goods.sale_price}}</text>
+        <view class="cu-capsule radius" wx:if="{{goods.discount<1}}">
+          <view class="cu-tag bg-brown sm">
+            <text>折</text>
+          </view>
+          <view class="cu-tag line-brown sm">
+            {{goods.discount*10}}
+          </view>
+        </view>
+      </view>
 
-<!--商品属性-->
-<view class="bg-white grid col-3 canui-goods-box text-gray text-sm">
-  <view class='padding-sm'>规格：{{goods.sp_size}}</view>
-  <view class='padding-sm text-center'>单位：{{goods.sp_unit}}</view>
-  <view class='padding-sm text-right' wx:if="{{goods.status==0}}">邮寄配送</view>
-   <view class='padding-sm text-right' wx:else>酒店配送</view>
-</view> 
+      <!--商品名称-->
+      <view class="bg-white canui-goods-box canui-xzwz text-black padding">{{goods.sp_name}}</view>
 
-<!--商品详情-->
-<view class="cu-bar bg-white margin-top solid-bottom">
-  <view class='action'>
-    <text class='icon-title text-red'></text>
-    <text>商品详情</text>
-  </view>
+      <!--商品属性-->
+      <view class="bg-white grid col-3 canui-goods-box text-gray text-sm">
+        <view class='padding-sm'>规格：{{goods.sp_size}}</view>
+        <view class='padding-sm text-center'>单位：{{goods.sp_unit}}</view>
+        <view class='padding-sm text-right' wx:if="{{goods.status==0}}">邮寄配送</view>
+        <view class='padding-sm text-right' wx:else>酒店配送</view>
+      </view>
+    </view>
+    <view class="margin-bottom" wx:key id="main-1">
+      <view class="cu-bar bg-white solid-bottom">
+        <view class="action">
+          <text class="cuIcon-title text-pink"></text>商品评价
+        </view>
+      </view>
+      <view class="cu-list menu-avatar comment solids-top">
+        <view class="cu-item">
+          <view class="cu-avatar round" style="background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png);"></view>
+          <view class="content">
+            <view class="text-grey">莫甘娜</view>
+            <view class="text-gray text-content text-df">
+              凯尔，你被自己的光芒变的盲目。
+            </view>
+            <view class="bg-grey padding-sm radius margin-top-sm  text-sm">
+              <view class="flex">
+                <view>凯尔：</view>
+                <view class="flex-sub">妹妹，你在帮他们给黑暗找借口吗?</view>
+              </view>
+            </view>
+            <view class="margin-top-sm flex justify-between">
+              <view class="text-gray text-df">2018年12月4日</view>
+              <view>
+                <text class="cuIcon-appreciatefill text-red"></text>
+                <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="margin-bottom" wx:key id="main-2">
+      <view class="cu-bar bg-white solid-bottom">
+        <view class="action">
+          <text class="cuIcon-title text-pink"></text>商品详情
+        </view>
+      </view>
+      <view class="cu-list solids-top">
+        <view class='cu-item' wx:for="{{4}}" wx:key>
+          <image src='http://img.redocn.com/sheji/20141219/zhongguofengdaodeliyizhanbanzhijing_3744115.jpg' class='detail-img' mode='aspectFit'></image>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
 </view>
-<view class="bg-white padding cauni-details-box" wx:if="{{goods.sp_desc == ''}}">暂无内容</view>
-<view class="bg-white padding cauni-details-box" wx:else>{{goods.sp_desc}}</view>
-
-<import src="../copyright/copyright.wxml" />
-<template is="copyright" />
-<!--TabbarBot为适配全面屏的，如果是全面屏，则底部多出一截空白-->
 <view class="cu-bar bg-white tabbar border shop canui-foor-fixed">
-  <view class='btn-group'>
-    <button class='cu-btn bg-orange round shadow-blur' bindtap='toaffirmorder'>立即购买</button>
+  <button class="action submit" open-type="contact">
+    <view class="cuIcon-service text-green">
+    </view>
+  </button>
+  <!-- 
+  <view class="action">
+    <view class="cuIcon-cart">
+    </view>
+    购物车
   </view>
+  <view class="bg-orange submit">加入购物车</view> -->
+  <view class="bg-red submit" bindtap='toaffirmorder'>立即订购</view>
 </view>

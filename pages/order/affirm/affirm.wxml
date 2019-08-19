@@ -1,3 +1,6 @@
+<cu-custom isBack="{{true}}" class='text-white'>
+  <view slot="content">{{CustomBarText}}</view>
+</cu-custom>
 <view class="padding canui-card-fiex-radius-box" bindtap='toscan' wx:if="{{address ==null && goods.status == 1}}">
   <view class="cu-list menu bg-white">
     <view class="cu-item">

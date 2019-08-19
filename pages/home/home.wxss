@@ -15,10 +15,9 @@
 .nav {
   position: fixed;
   z-index: 9999;
-  top: 0;
 }
 
-.search {
+.content {
   margin-top: 100rpx;
 }
 
@@ -33,4 +32,19 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   font-size: 32rpx;
+}
+.cu-list.grid>.cu-item [class*=cuIcon]{
+  display: inline-block;
+  font-size: 30rpx;
+  width: auto;
+}
+.cu-list.grid>.cu-item text{
+  display: inline-block;
+}
+.navitem{
+  position: fixed;
+  top: 180rpx;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0.9;
+  width: 100%;
 }

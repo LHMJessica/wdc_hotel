@@ -1,5 +1,5 @@
 // pages/welfare/welfare.js
-var app = getApp()
+const app = getApp();
 var utils = require('../../utils/util.js');
 var config = require('../../utils/config');
 var $ajax = require('../../utils/ajax.js');
@@ -9,7 +9,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    hidden: false
+    hidden: false,
+    StatusBar: app.globalData.StatusBar,
+    CustomBar: app.globalData.CustomBar,
+    CustomBarText: "福利"
   },
   /**
    * 生命周期函数--监听页面显示
@@ -37,6 +40,16 @@ Page({
     var that = this;
     //加载打折商品数据
     that.brandShow();
+  },
+  onPullDownRefresh: function () {
+    console.log('--------下拉刷新-------')
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    var that = this;
+    //加载打折商品数据
+    that.brandShow();
+    // complete
+    wx.hideNavigationBarLoading() //完成停止加载
+    wx.stopPullDownRefresh() //停止下拉刷新
   },
   brandShow: function () {
     var that = this;

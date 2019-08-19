@@ -63,3 +63,7 @@ map,.mapBox{
   background: salmon;
   opacity: 0;
 }
+.cu-custom .cu-bar {
+  padding-right: inherit;
+  background-image: none;
+}

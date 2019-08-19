@@ -1,50 +1,70 @@
-/* pages/good/goods.wxss */
-.screen-swiper {
-    min-height:555rpx;
-}
-/*-------左上角按钮-------*/
-.canui-head-box{
-    position:fixed;
-    top:26px;
-    margin-left:10px;
-    background:rgba(0,0,0,0.2);
-    color:#fff;
-    border-radius:20px;
-    padding:4px 4px;
-    border:1px solid rgba(255,255,255,0.3);
-}
-.canui-head-box navigator{
-    padding:8px;
-    font-size:20px;
-    display:initial;
-}
-.canui-head-box navigator + navigator{
-    border-left:1px solid rgba(255,255,255,0.3);
-    margin:0 3px;
-    padding:0 5px;
-    padding-left:15px;
-}
+/* pages/component/nav/nav.wxss */
 
-.canui-goods-box{
-    padding:10rpx 30rpx;
+/* page, .HorizontalBox, .HorizontalMain {
+  height: 100%;
+} */
+.HorizontalBox{
+  margin-bottom: 100rpx;
 }
-
-.canui-xzwz{
-    -webkit-line-clamp:2;
+.HorizontalMain{
+  height: 97vh;
 }
-.cauni-details-box{
-    word-wrap:break-word;
-    margin-bottom: 100rpx;
+/* 
+.HorizontalNav.nav {
+  width: 200rpx;
+  white-space: initial;
 }
-.cu-bar.tabbar.shop .action {
-    width:100rpx;
-}
-.cu-bar.tabbar .action {
-    font-size:20rpx;
-}
-.cu-bar.tabbar .action [class*="icon"] {
-    width:38rpx;
-}
-.bg-orange{
+.HorizontalNav.nav .cu-item {
   width: 100%;
+  text-align: center;
+  background-color: #fff;
+  margin: 0;
+  border: none;
+  height: 50px;
+  position: relative;
+}
+ */
+
+.HorizontalNav.nav .cu-item.cur {
+  background-color: #f1f1f1;
+}
+
+/* .HorizontalNav.nav .cu-item.cur::after {
+  content: "";
+  width: 8rpx;
+  height: 30rpx;
+  border-radius: 10rpx 0 0 10rpx;
+  position: absolute;
+  background-color: currentColor;
+  top: 0;
+  right: 0rpx;
+  bottom: 0;
+  margin: auto;
+} */
+
+.HorizontalMain {
+  background-color: #f1f1f1;
+}
+
+.nav {
+  width: auto;
+  margin: 0 auto;
+}
+
+.cu-custom .cu-bar {
+  padding-right: inherit;
+  background-image: none;
+}
+
+.screen-swiper {
+  height: 575rpx;
+}
+
+.detail-img {
+  width: 100%;
+}
+
+.button-hover {
+  color: none;
+  background-color: none;
 }

@@ -2,7 +2,18 @@
 var config = require('utils/config');
 var $ajax = require('utils/ajax.js');
 App({
-  onLaunch: function() {},
+  onLaunch: function () {
+    wx.getSystemInfo({
+      success: e => {
+        this.globalData.StatusBar = e.statusBarHeight;
+        let custom = wx.getMenuButtonBoundingClientRect();
+        this.globalData.Custom = custom;
+        this.globalData.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
+        this.globalData.CustomBarText ="小万嗨嗨商城";
+      }
+    })
+  },
+  globalData:{},
 
   /**
    * funName:本地缓存是否存有用户信息

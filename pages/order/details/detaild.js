@@ -1,4 +1,4 @@
-var app = getApp()
+const app = getApp();
 var utils = require('../../../utils/util.js');
 var config = require('../../../utils/config');
 var $ajax = require('../../../utils/ajax.js');
@@ -7,6 +7,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    StatusBar: app.globalData.StatusBar,
+    CustomBar: app.globalData.CustomBar,
+    CustomBarText: "订单详情",
     order: null,
     orderdetail: null,
     rownumsize: null,

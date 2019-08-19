@@ -1224,3 +1224,6 @@
 .cuIcon-btn:before {
 	content: "\e601";
 }
+.cuIcon-none-btn:before {
+	content: "";
+}

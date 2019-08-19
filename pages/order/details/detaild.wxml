@@ -1,4 +1,7 @@
 <!--pages/order/details/detaild.wxml-->
+<cu-custom isBack="{{true}}" class='text-white'>
+  <view slot="content">{{CustomBarText}}</view>
+</cu-custom>
 <view class="padding canui-card-fiex-radius-box"  wx:if="{{order.status==1 || order.status==5 || order.status==6}}">
   <view class="cu-list menu bg-white">
     <view class="cu-item">

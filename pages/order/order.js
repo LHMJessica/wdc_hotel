@@ -1,4 +1,5 @@
 // pages/order/order.js
+const app=getApp();
 var utils = require('../../utils/util.js');
 var config = require('../../utils/config');
 var $ajax = require('../../utils/ajax.js');
@@ -6,13 +7,16 @@ Page({
   data: {
     TabCur: 100,
     scrollLeft: 0,
-    hidden: false
+    hidden: false,
+    StatusBar: app.globalData.StatusBar,
+    CustomBar: app.globalData.CustomBar,
+    CustomBarText: "订单"
   },
   tabSelect(e) {
     var idx = e.currentTarget.dataset.idx;
     this.setData({
       TabCur: idx,
-      scrollLeft: (e.currentTarget.dataset.id - 1) * 60
+      scrollLeft: (e.currentTarget.dataset.idx - 1) * 60
     })
     this.qryOrders(idx);
   },
@@ -23,6 +27,16 @@ Page({
     var that = this;
     //加载navbar导航条
     that.navbarShow();
+  },
+  onPullDownRefresh: function () {
+    console.log('--------下拉刷新-------')
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    var that = this;
+    //加载navbar导航条
+    that.navbarShow();
+    // complete
+    wx.hideNavigationBarLoading() //完成停止加载
+    wx.stopPullDownRefresh() //停止下拉刷新
   },
   /**
    * 生命周期函数--监听页面显示
