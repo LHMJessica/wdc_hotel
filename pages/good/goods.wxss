@@ -49,11 +49,8 @@
 .nav {
   width: auto;
   margin: 0 auto;
-}
-
-.cu-custom .cu-bar {
-  padding-right: inherit;
-  background-image: none;
+  position: relative;
+  right: 95rpx;
 }
 
 .screen-swiper {

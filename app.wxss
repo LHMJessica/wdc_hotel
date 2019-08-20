@@ -145,6 +145,6 @@
 }
 .cu-custom .cu-bar{
     padding-right:inherit;
-    background-image:linear-gradient(186deg, #ffffff, #000000);
-    color: white;
+    background-image:linear-gradient(186deg, #ffffff, #ffffff);
+    color: black;
 }

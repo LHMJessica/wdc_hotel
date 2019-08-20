@@ -10,7 +10,8 @@
     "pages/owner/message/message",
     "pages/owner/settings/settings",
     "pages/owner/login/login",
-    "pages/copyright/copyright"
+    "pages/copyright/copyright",
+    "pages/comment/comment"
   ],
   "window": {
     "backgroundTextStyle": "light",

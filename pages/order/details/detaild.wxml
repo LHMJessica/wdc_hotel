@@ -2,7 +2,7 @@
 <cu-custom isBack="{{true}}" class='text-white'>
   <view slot="content">{{CustomBarText}}</view>
 </cu-custom>
-<view class="padding canui-card-fiex-radius-box"  wx:if="{{order.status==1 || order.status==5 || order.status==6}}">
+<view class="padding canui-card-fiex-radius-box"  wx:if="{{order.status==5}}">
   <view class="cu-list menu bg-white">
     <view class="cu-item">
       <view class='content'>
@@ -93,9 +93,9 @@
     </view>
   </view>
 </view>
-<view class="canui-foor-fixed bg-white">
+<view class="canui-foor-fixed bg-white"  wx:if="{{order.status!=5}}">
   <view class="grid col-4 flex justify-end order-btn-box">
-    <view class='margin-tb-sm text-center' wx:if="{{order.status==3||order.status==1}}">
+    <view class='margin-tb-sm text-center' wx:if="{{order.status==3||order.status==1||order.status==7}}">
       <button class='cu-btn round line-gray shadow' >删除订单</button>
     </view>
     <view class='margin-tb-sm text-center'wx:if="{{order.status==4}}">

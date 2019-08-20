@@ -1,0 +1,5 @@
+/* pages/comment/comment.wxss */
+.stars{
+  font-size: 45rpx;
+  padding: 10rpx;
+}

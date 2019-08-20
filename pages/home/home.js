@@ -102,7 +102,7 @@ Page({
     var that = this;
     var params = config.service.host+"funid=queryevent&eventcode=query_data&query_funid=shop_type&limit=50&start=0&where_sql=shop_type.type_level = 1&user_id=admin";
     $ajax._post(params, function(res) {
-      console.log(JSON.stringify(res));
+      //console.log(JSON.stringify(res));
       var navbarsdata = [];
       for (var i in res.data.root) {
         navbarsdata.push({
@@ -170,8 +170,8 @@ Page({
     var that = this;
     var params = config.service.host + "funid=app_full&eventcode=qryShopTypes&type_id=" + type_id +"";
     $ajax._post(params, function (res) {
-      console.log(JSON.stringify(res));
-      console.log(res);
+     // console.log(JSON.stringify(res));
+     // console.log(res);
       var navitems = [];
       for (var i in res.data) {
         navitems.push({

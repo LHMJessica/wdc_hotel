@@ -1,16 +1,16 @@
 <view class='cu-custom'>
-  <view class="cu-bar fixed" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
-    <navigator class='action text-white' open-type="navigateBack" delta="1" hover-class="none">
+  <view class="cu-bar fixed text-white" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+    <navigator class='action' open-type="navigateBack" delta="1" hover-class="none">
       <text class='cuIcon-back'></text> 返回
     </navigator>
-    <scroll-view class="nav" scroll-x scroll-with-animation scroll-left="{{scrollLeft}}">
-      <view class="cu-item {{index==TabCur?'text-white cur':''}}" wx:for="{{list}}" wx:key bindtap='tabSelect' data-id="{{index}}">
+    <scroll-view class="nav" scroll-x scroll-with-animation scroll-left="{{scrollLeft}}" hidden='{{!floorstatus}}'>
+      <view class="cu-item {{index==TabCur?'text-pink cur':''}}" wx:for="{{list}}" wx:key bindtap='tabSelect' data-id="{{index}}">
         {{item.name}}
       </view>
     </scroll-view>
   </view>
 </view>
-<view class="HorizontalBox">
+<view class="HorizontalBox" style="margin-top:{{CustomBar}}px;">
   <scroll-view class="HorizontalMain" scroll-y scroll-with-animation scroll-into-view="main-{{MainCur}}" bindscroll="HorizontalMain">
     <view class="margin-bottom" wx:key id="main-0">
       <swiper class="screen-swiper square-dot bg-white" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
@@ -21,7 +21,7 @@
 
       <!--商品价格-->
       <view class="bg-white canui-goods-box" style='padding-top:10px;'>
-        <text class="text-price text-red text-xl">{{goods.sale_price}}</text>
+        <text class="text-price text-red text-xl padding">{{goods.sale_price}}</text>
         <view class="cu-capsule radius" wx:if="{{goods.discount<1}}">
           <view class="cu-tag bg-brown sm">
             <text>折</text>
@@ -49,25 +49,24 @@
           <text class="cuIcon-title text-pink"></text>商品评价
         </view>
       </view>
+      <view class="cu-list solids-top">
+        <view class='padding text-centet bg-white' wx:if="{{comments.length<=0}}">暂时没有人评论哟</view>
+        <view class='cu-item' wx:for="{{details}}" wx:key>
+          <image src='{{item.imgurl}}' class='detail-img' mode='scaleToFill'></image>
+        </view>
+      </view>
       <view class="cu-list menu-avatar comment solids-top">
-        <view class="cu-item">
-          <view class="cu-avatar round" style="background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png);"></view>
+        <view class="cu-item" wx:for="{{comments}}" wx:key>
+          <view class="cu-avatar round" style="background-image:url({{item.sp_comment__account_img}});"></view>
           <view class="content">
-            <view class="text-grey">莫甘娜</view>
+            <view class="text-grey">{{item.sp_comment__account_name}}</view>
             <view class="text-gray text-content text-df">
-              凯尔，你被自己的光芒变的盲目。
-            </view>
-            <view class="bg-grey padding-sm radius margin-top-sm  text-sm">
-              <view class="flex">
-                <view>凯尔：</view>
-                <view class="flex-sub">妹妹，你在帮他们给黑暗找借口吗?</view>
-              </view>
+              {{item.sp_comment__content}}
             </view>
             <view class="margin-top-sm flex justify-between">
-              <view class="text-gray text-df">2018年12月4日</view>
+              <view class="text-gray text-df">{{item.sp_comment__comment_date}}</view>
               <view>
-                <text class="cuIcon-appreciatefill text-red"></text>
-                <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
+                <text class='cuIcon-favorfill text-pink' wx:for="{{item.sp_comment__comment_star}}" wx:key></text>
               </view>
             </view>
           </view>
@@ -81,8 +80,9 @@
         </view>
       </view>
       <view class="cu-list solids-top">
-        <view class='cu-item' wx:for="{{4}}" wx:key>
-          <image src='http://img.redocn.com/sheji/20141219/zhongguofengdaodeliyizhanbanzhijing_3744115.jpg' class='detail-img' mode='aspectFit'></image>
+        <view class='padding text-centet bg-white' wx:if="{{details.length<=0}}">暂无商品详情哦</view>
+        <view class='cu-item' wx:for="{{details}}" wx:key>
+          <image src='{{item.imgurl}}' class='detail-img' mode='scaleToFill'></image>
         </view>
       </view>
     </view>

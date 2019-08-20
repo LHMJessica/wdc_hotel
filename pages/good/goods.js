@@ -11,7 +11,8 @@ Page({
     MainCur: 0,
     scrollLeft: 0,
     list: [],
-    load: true
+    load: true,
+    floorstatus: false
   },
   onLoad: function(options) {
     wx.showLoading({
@@ -34,22 +35,38 @@ Page({
     })
     var goodid = options.goodid;
     this.goodsInfoShow(goodid);
+    this.qryDetailImage(goodid);
+    this.qryComment(goodid);
   },
   onReady() {
-    wx.hideLoading()
+    wx.hideLoading();
   },
   tabSelect: function(e) {
+    let marTop = 0;
+    if (e.currentTarget.dataset.id != 0) {
+      marTop = this.data.StatusBar + this.data.CustomBar + 10;
+    }
     this.setData({
       TabCur: e.currentTarget.dataset.id,
       MainCur: e.currentTarget.dataset.id,
-      scrollLeft: (e.currentTarget.dataset.id - 1) * 60
+      scrollLeft: (e.currentTarget.dataset.id - 1) * 60,
+      marTop: marTop
     })
   },
   HorizontalMain: function(e) {
     let that = this;
     let list = this.data.list;
     let tabHeight = 0;
-    if (this.data.load) {
+    if (e.detail.scrollTop >40) {
+      this.setData({
+        floorstatus: true
+      });
+    } else {
+      this.setData({
+        floorstatus: false
+      });
+    }
+     if (this.data.load) {
       for (let i = 0; i < list.length; i++) {
         let view = wx.createSelectorQuery().select("#main-" + list[i].id);
         view.fields({
@@ -64,8 +81,8 @@ Page({
         load: false,
         list: list
       })
-    }
-    let scrollTop = e.detail.scrollTop + 20;
+    } 
+    let scrollTop = e.detail.scrollTop+10;
     for (let i = 0; i < list.length; i++) {
       if (scrollTop > list[i].top && scrollTop < list[i].bottom) {
         that.setData({
@@ -80,7 +97,7 @@ Page({
     this.data.goods.count = "1";
     this.data.goods.totalMoney = (this.data.goods.dollar_price * this.data.goods.count).toFixed(2);
     this.data.goods.totalRMoney = (this.data.goods.sale_price * this.data.goods.count).toFixed(2);
-    var discount = (this.data.goods.discount < 1 ? (1 - this.data.goods.discount) : 0);
+    let discount = (this.data.goods.discount < 1 ? (1 - this.data.goods.discount) : 0);
     this.data.goods.reduced = (this.data.goods.sale_price * this.data.goods.count * discount).toFixed(2);
     this.data.goods.money = (this.data.goods.totalRMoney - this.data.goods.reduced).toFixed(2);
     wx.setStorageSync("goods", this.data.goods);
@@ -113,6 +130,57 @@ Page({
         icon: 'none',
         duration: 5000,
         success: function(res) {
+          //  同步清理本地缓存
+          //  wx.clearStorageSync();
+        }
+      });
+    });
+  },
+  qryDetailImage: function(goodid) {
+    let that = this;
+    var params = config.service.host + "funid=queryevent&eventcode=query_data&query_funid=sp_details&limit=50&start=0&user_id=admin&where_sql=sp_details.sp_id ='" + goodid + "' order by sp_details.detail_sort asc";
+    $ajax._post(params, function(res) {
+    //  console.log(params);
+     // console.log(res);
+      let details = [];
+      for (let i in res.data.root) {
+        details.push({
+          imgurl: config.service.host + "funid=sys_attach&pagetype=editgrid&eventcode=fdown&attach_field=img_path&dataid=" + res.data.root[i].sp_details__detail_id + "&table_name=sp_details&datafunid=sp_catalog&dataType=byte&nousercheck=1&dc=1556729137482"
+        });
+      }
+      that.setData({
+        details: details
+      });
+
+    }, function(error) {
+      wx.showToast({
+        title: '请求失败了!',
+        icon: 'none',
+        duration: 5000,
+        success: function(res) {
+          //  同步清理本地缓存
+          //  wx.clearStorageSync();
+        }
+      });
+    });
+  },
+  qryComment: function (goodid) {
+    let that = this;
+    var params = config.service.host + "funid=queryevent&eventcode=query_data&query_funid=sp_comment&limit=1&start=0&user_id=admin&where_sql=sp_comment.sp_id ='" + goodid + "' order by sp_comment.comment_date desc";
+    $ajax._post(params, function (res) {
+     // console.log(res);
+      for (let i in res.data.root) {
+        res.data.root[i].sp_comment__comment_star = parseInt(res.data.root[i].sp_comment__comment_star);
+      }
+      that.setData({
+        comments:res.data.root
+      });
+    }, function (error) {
+      wx.showToast({
+        title: '请求失败了!',
+        icon: 'none',
+        duration: 5000,
+        success: function (res) {
           //  同步清理本地缓存
           //  wx.clearStorageSync();
         }
