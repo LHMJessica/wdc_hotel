@@ -108,7 +108,7 @@ Page({
       that.setData({
         orders: orders
       })
-      console.log(orders);
+     // console.log(orders);
     }, function(error) {
       wx.showToast({
         title: '请求失败了!',

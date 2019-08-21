@@ -21,7 +21,7 @@ Page({
     this.setData({
       comment: comment
     });
-    console.log(this.data.comment);
+   // console.log(this.data.comment);
   },
   starchange: function(e) {
     var idx = e.currentTarget.dataset.idx;

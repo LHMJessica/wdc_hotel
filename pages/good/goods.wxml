@@ -88,7 +88,8 @@
 </view>
 <view class="cu-bar bg-white tabbar border shop canui-foor-fixed">
   <button class="action submit" open-type="contact">
-    <view class="cuIcon-service text-green">
+    <view class=' text-green'>
+      <text class="cuIcon-service"></text>联系客服
     </view>
   </button>
   <!-- 

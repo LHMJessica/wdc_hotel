@@ -95,8 +95,8 @@
 </view>
 <view class="canui-foor-fixed bg-white"  wx:if="{{order.status!=5}}">
   <view class="grid col-4 flex justify-end order-btn-box">
-    <view class='margin-tb-sm text-center' wx:if="{{order.status==3||order.status==1||order.status==7}}">
-      <button class='cu-btn round line-gray shadow' >删除订单</button>
+    <view class='margin-tb-sm text-center' wx:if="{{order.status==3}}">
+      <button class='cu-btn round line-gray shadow' bindtap='tocomment'>立即评价</button>
     </view>
     <view class='margin-tb-sm text-center'wx:if="{{order.status==4}}">
       <button class='cu-btn round line-gray shadow' bindtap='cancelorder' data-idx='{{order.order_id}}'>取消订单</button>

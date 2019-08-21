@@ -20,16 +20,16 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     this.setData({
       order_id: options.orderid
     });
     var that = this;
     var params = config.service.host + "funid=app_full&eventcode=qryOrderDetail&order_id=" + that.data.order_id;
-    $ajax._post(params, function (res) {
-      console.log(res);
+    $ajax._post(params, function(res) {
+      //console.log(res);
       var detail = JSON.parse(res.data.detail);
-      console.log(detail);
+      // console.log(detail);
       var row = JSON.parse(res.data.rownum);
       var index = 0;
       for (var i in row) {
@@ -46,47 +46,31 @@ Page({
         rownumsize: row.length,
         index: index
       });
-      console.log(JSON.stringify(res))
-    }, function () {
+      // console.log(JSON.stringify(res))
+    }, function() {
 
     });
   },
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
     var user = wx.getStorageSync("user");
-    this.setData({ "user": user });
-    //执行初始化
-  },
-  //刷新数据
-  dataRefresh: function (_action) {
-    //提交到服务器
-    var that = this
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  },
-  setRoomCode: function (e) {
     this.setData({
-      room: e.detail.value
+      "user": user
     });
+    //执行初始化
   },
   /**
    * 支付订单
    */
-  payOrder: function () {
+  payOrder: function() {
     var user = wx.getStorageSync("user");
     var that = this;
     console.log(that.data.order.order_code);
     var urls = config.service.host + "funid=app_api&eventcode=wxPaySmall&order_code=" + that.data.order.order_code + "&money=" + that.data.order.pay_money + "&openid=" + user.account_code;
     console.log(urls);
-    $ajax._post(urls, function (res) {
+    $ajax._post(urls, function(res) {
       console.log(res);
       wx.requestPayment({
         'timeStamp': res.data.timeStamp,
@@ -94,21 +78,21 @@ Page({
         'package': res.data.package,
         'signType': res.data.signType,
         'paySign': res.data.sign,
-        success: function (res) {
+        success: function(res) {
           wx.showLoading({
             title: '正在支付....'
           });
-          $ajax._post(config.service.host + "funid=app_api&eventcode=upPayOrder&order_code=" + that.data.order.order_code, function (res) {
+          $ajax._post(config.service.host + "funid=app_api&eventcode=upPayOrder&order_code=" + that.data.order.order_code, function(res) {
             wx.hideLoading();
             wx.showToast({
               title: '支付成功！',
             })
-            that.onLoad();//支付成功后重新加载页面
-          }, function () {
+            that.onLoad(); //支付成功后重新加载页面
+          }, function() {
             wx.hideLoading();
           });
         },
-        fail: function (res) {
+        fail: function(res) {
           wx.showToast({
             title: '支付失败',
             icon: 'none',
@@ -117,7 +101,7 @@ Page({
           console.log(res)
         }
       });
-    }, function () {
+    }, function() {
       wx.showToast({
         title: '发起支付失败',
         icon: 'none',
@@ -130,30 +114,30 @@ Page({
   /**
    * 取消订单
    */
-  cancelorder: function (e) {
+  cancelorder: function(e) {
     let order_id = e.currentTarget.dataset.idx
-    var that=this;
+    var that = this;
     wx.showModal({
       title: '取消订单',
       content: '确定要取消吗？',
-      showCancel: true,//是否显示取消按钮
-      cancelText: "否",//默认是“取消”
-      cancelColor: '#f0145a',//取消文字的颜色
-      confirmText: "是",//默认是“确定”
-      confirmColor: 'skyblue',//确定文字的颜色
-      success: function (res) {
+      showCancel: true, //是否显示取消按钮
+      cancelText: "否", //默认是“取消”
+      cancelColor: '#f0145a', //取消文字的颜色
+      confirmText: "是", //默认是“确定”
+      confirmColor: 'skyblue', //确定文字的颜色
+      success: function(res) {
         if (res.cancel) {
           //点击取消,默认隐藏弹框
         } else {
           var params = config.service.host + "funid=app_full&eventcode=setOrder&order_id=" + order_id + "&status=7";
-          $ajax._post(params, function (res) {
+          $ajax._post(params, function(res) {
             that.onLoad();
-          }, function (error) {
+          }, function(error) {
             wx.showToast({
               title: '请求失败了!',
               icon: 'none',
               duration: 5000,
-              success: function (res) {
+              success: function(res) {
                 //  同步清理本地缓存
                 // wx.clearStorageSync();
               }
@@ -161,8 +145,35 @@ Page({
           });
         }
       },
-      fail: function (res) { },//接口调用失败的回调函数
-      complete: function (res) { },//接口调用结束的回调函数（调用成功、失败都会执行）
+      fail: function(res) {}, //接口调用失败的回调函数
+      complete: function(res) {}, //接口调用结束的回调函数（调用成功、失败都会执行）
     })
+  },
+  tocomment: function() {
+    /* console.log(this.data.order);
+    console.log(this.data.orderdetail); */
+    let user = wx.getStorageSync("user");
+    if (user) {
+      let comment = {
+            "order_id": this.data.order.order_id,
+            "order_code": this.data.order.order_code,
+            "comment_star": 5,
+            "account_name": user.account_name,
+            "account_img": user.account_img,
+            "account_code": user.account_code,
+            "sp_code":this.data.orderdetail[0].sp_code,
+            "sp_name": this.data.orderdetail[0].sp_name,
+            "sp_id": this.data.orderdetail[0].shop_id,
+            "parent_id":this.data.orderdetail[0].shop_id
+          };
+          wx.navigateTo({
+            url: '../../comment/comment?comment=' + JSON.stringify(comment),
+          }) 
+    } else {
+      wx.redirectTo({
+        url: '.././owner/login/login'
+      })
+    }
+
   }
 })

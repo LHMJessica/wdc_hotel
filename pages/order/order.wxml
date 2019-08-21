@@ -34,9 +34,9 @@
       <view class='margin-tb-sm text-center' wx:if="{{item.status==4}}">
         <button class='cu-btn round line-gray shadow' bindtap='cancelorder' data-idx='{{item.order_id}}'>取消订单</button>
       </view>
-      <view class='margin-tb-sm text-center' wx:elif="{{item.status==8}}">
+      <!-- <view class='margin-tb-sm text-center' wx:elif="{{item.status==8}}">
         <button class='cu-btn round line-red shadow'>删除订单</button>
-      </view>
+      </view> -->
       <view class='margin-tb-sm text-center' wx:elif="{{item.status==3}}">
         <button class='cu-btn round line-red shadow' bindtap='tocomment' data-idx='{{index}}'>立即评价</button>
       </view>
