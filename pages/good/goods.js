@@ -23,10 +23,10 @@ Page({
       "name": "商品",
       "id": "0"
     }, {
-      "name": "评价",
+      "name": "详情",
       "id": "1"
     }, {
-      "name": "详情",
+      "name": "评价",
       "id": "2"
     }];
     this.setData({
@@ -42,38 +42,24 @@ Page({
     wx.hideLoading();
   },
   tabSelect: function(e) {
-    let marTop = 0;
-    if (e.currentTarget.dataset.id != 0) {
-      marTop = this.data.StatusBar + this.data.CustomBar + 10;
-    }
     this.setData({
       TabCur: e.currentTarget.dataset.id,
       MainCur: e.currentTarget.dataset.id,
-      scrollLeft: (e.currentTarget.dataset.id - 1) * 60,
-      marTop: marTop
+      scrollLeft: (e.currentTarget.dataset.id - 1) * 60
     })
   },
   HorizontalMain: function(e) {
     let that = this;
     let list = this.data.list;
     let tabHeight = 0;
-    if (e.detail.scrollTop >40) {
-      this.setData({
-        floorstatus: true
-      });
-    } else {
-      this.setData({
-        floorstatus: false
-      });
-    }
-     if (this.data.load) {
+    if (this.data.load) {
       for (let i = 0; i < list.length; i++) {
         let view = wx.createSelectorQuery().select("#main-" + list[i].id);
         view.fields({
           size: true
         }, data => {
           list[i].top = tabHeight;
-          tabHeight = tabHeight + data.height;
+          tabHeight = data.height + tabHeight;
           list[i].bottom = tabHeight;
         }).exec();
       }
@@ -81,16 +67,25 @@ Page({
         load: false,
         list: list
       })
-    } 
-    let scrollTop = e.detail.scrollTop+10;
+    }
+    let scrollTop = e.detail.scrollTop;
+    if (scrollTop > 50) {
+      that.setData({
+        floorstatus: true
+      });
+    } else {
+      that.setData({
+        floorstatus: false
+      });
+    }
     for (let i = 0; i < list.length; i++) {
       if (scrollTop > list[i].top && scrollTop < list[i].bottom) {
         that.setData({
-          scrollLeft: (list[i].id - 1) * 50,
+          scrollLeft: (list[i].id - 1) * 60,
           TabCur: list[i].id
         })
-        return false
-      }
+         return false
+      } 
     }
   },
   toaffirmorder: function() {
@@ -140,8 +135,8 @@ Page({
     let that = this;
     var params = config.service.host + "funid=queryevent&eventcode=query_data&query_funid=sp_details&limit=50&start=0&user_id=admin&where_sql=sp_details.sp_id ='" + goodid + "' order by sp_details.detail_sort asc";
     $ajax._post(params, function(res) {
-    //  console.log(params);
-     // console.log(res);
+      //  console.log(params);
+      // console.log(res);
       let details = [];
       for (let i in res.data.root) {
         details.push({
@@ -164,23 +159,23 @@ Page({
       });
     });
   },
-  qryComment: function (goodid) {
+  qryComment: function(goodid) {
     let that = this;
     var params = config.service.host + "funid=queryevent&eventcode=query_data&query_funid=sp_comment&limit=1&start=0&user_id=admin&where_sql=sp_comment.sp_id ='" + goodid + "' order by sp_comment.comment_date desc";
-    $ajax._post(params, function (res) {
-     // console.log(res);
+    $ajax._post(params, function(res) {
+      // console.log(res);
       for (let i in res.data.root) {
         res.data.root[i].sp_comment__comment_star = parseInt(res.data.root[i].sp_comment__comment_star);
       }
       that.setData({
-        comments:res.data.root
+        comments: res.data.root
       });
-    }, function (error) {
+    }, function(error) {
       wx.showToast({
         title: '请求失败了!',
         icon: 'none',
         duration: 5000,
-        success: function (res) {
+        success: function(res) {
           //  同步清理本地缓存
           //  wx.clearStorageSync();
         }

@@ -28,7 +28,7 @@ Page({
     that.navbarShow();
     that.data.currpage=1;
     //加载商品信息
-    that.newGoodsShow(that.data.TabCur, that.data.sp_name);
+    that.newGoodsShow(that.data.ItemCur, that.data.sp_name);
     // complete
     wx.hideNavigationBarLoading() //完成停止加载
     wx.stopPullDownRefresh() //停止下拉刷新
@@ -130,6 +130,7 @@ Page({
   },
   newGoodsShow: function (type_id, sp_name) {
     var that = this;
+    newGoodsData = []; 
     var params = config.service.host + "funid=app_full&eventcode=qryShopCatalogByType&type_id=" + type_id + "&sp_name="+sp_name+"&currpage=" + that.data.currpage + "&pagesize=" + that.data.pagesize;
     $ajax._post(params, function(res) {
       if (res.data.length == 0) {

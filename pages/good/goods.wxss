@@ -4,10 +4,10 @@
   height: 100%;
 } */
 .HorizontalBox{
-  margin-bottom: 100rpx;
+  /* margin-bottom: 100rpx; */
 }
 .HorizontalMain{
-  height: 97vh;
+  /* height: 97vh; */
 }
 /* 
 .HorizontalNav.nav {
@@ -64,4 +64,7 @@
 .button-hover {
   color: none;
   background-color: none;
+}
+.margin-bottom {
+  margin-bottom:15rpx;
 }

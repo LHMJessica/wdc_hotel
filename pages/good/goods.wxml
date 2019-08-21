@@ -11,8 +11,9 @@
   </view>
 </view>
 <view class="HorizontalBox" style="margin-top:{{CustomBar}}px;">
-  <scroll-view class="HorizontalMain" scroll-y scroll-with-animation scroll-into-view="main-{{MainCur}}" bindscroll="HorizontalMain">
-    <view class="margin-bottom" wx:key id="main-0">
+  <scroll-view class="HorizontalMain" scroll-y="true" scroll-with-animation scroll-into-view="main-{{MainCur}}" style="height:calc( 100vh - 64px - 100rpx)" bindscroll="HorizontalMain">
+    <!-- bindscroll="HorizontalMain" -->
+    <view class="margin-bottom" id="main-0">
       <swiper class="screen-swiper square-dot bg-white" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
         <swiper-item wx:for="{{goods.imgurls}}" wx:for-item="item" wx:key="index">
           <image src="{{item.url}}" mode='scaleToFill'></image>
@@ -43,19 +44,29 @@
         <view class='padding-sm text-right' wx:else>酒店配送</view>
       </view>
     </view>
-    <view class="margin-bottom" wx:key id="main-1">
+    <view class="margin-bottom" id="main-1">
+      <view class="cu-bar bg-white solid-bottom">
+        <view class="action">
+          <text class="cuIcon-title text-pink"></text>商品详情
+        </view>
+      </view>
+      <view class="cu-list solids-top" wx:if="{{details.length<=0}}">
+        <view class='padding text-centet bg-white'>暂无商品详情哦</view>
+      </view>
+      <view class='cu-item' wx:for="{{details}}" wx:key wx:if="{{details.length>0}}">
+        <image src='{{item.imgurl}}' class='detail-img' mode='scaleToFill'></image>
+      </view>
+    </view>
+    <view class="margin-bottom" id="main-2">
       <view class="cu-bar bg-white solid-bottom">
         <view class="action">
           <text class="cuIcon-title text-pink"></text>商品评价
         </view>
       </view>
-      <view class="cu-list solids-top">
-        <view class='padding text-centet bg-white' wx:if="{{comments.length<=0}}">暂时没有人评论哟</view>
-        <view class='cu-item' wx:for="{{details}}" wx:key>
-          <image src='{{item.imgurl}}' class='detail-img' mode='scaleToFill'></image>
-        </view>
+      <view class="cu-list solids-top" wx:if="{{comments.length<=0}}">
+        <view class='padding text-centet bg-white'>暂时没有人评论哟</view>
       </view>
-      <view class="cu-list menu-avatar comment solids-top">
+      <view class="cu-list menu-avatar comment solids-top" wx:if="{{comments.length>0}}">
         <view class="cu-item" wx:for="{{comments}}" wx:key>
           <view class="cu-avatar round" style="background-image:url({{item.sp_comment__account_img}});"></view>
           <view class="content">
@@ -70,19 +81,6 @@
               </view>
             </view>
           </view>
-        </view>
-      </view>
-    </view>
-    <view class="margin-bottom" wx:key id="main-2">
-      <view class="cu-bar bg-white solid-bottom">
-        <view class="action">
-          <text class="cuIcon-title text-pink"></text>商品详情
-        </view>
-      </view>
-      <view class="cu-list solids-top">
-        <view class='padding text-centet bg-white' wx:if="{{details.length<=0}}">暂无商品详情哦</view>
-        <view class='cu-item' wx:for="{{details}}" wx:key>
-          <image src='{{item.imgurl}}' class='detail-img' mode='scaleToFill'></image>
         </view>
       </view>
     </view>

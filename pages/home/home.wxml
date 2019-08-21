@@ -4,17 +4,24 @@
   <view slot="content">{{CustomBarText}}</view>
 </cu-custom>
 <scroll-view scroll-x class="bg-white nav" scroll-with-animation scroll-left="{{scrollLeft}}" style="top:{{CustomBar}}px;">
-  <view class="cu-item {{item.type_id==TabCur?'text-pink cur':''}}" wx:for="{{bars}}" wx:for-item="item" wx:key bindtap="tabSelect" data-idx="{{item.type_id}}">
-    {{item.type_name}}
+  <view>
+    <view class="cu-item {{item.type_id==TabCur?'text-pink cur':''}}" wx:for="{{bars}}" wx:for-item="item" wx:key bindtap="tabSelect" data-idx="{{item.type_id}}">
+      {{item.type_name}}
+    </view>
   </view>
-  <view class="cu-list grid col-{{gridCol}} navitem no-border" wx:if="{{hidden}}" style="top:{{CustomBar+32}}px;">
+  <view class="cu-list navitem" wx:if="{{hidden}}" style="top:{{CustomBar+42}}px;">
+    <view class="cu-item {{item.type_id==TabCur?'text-pink cur':''}}" wx:for="{{navitems}}" wx:for-item="item" wx:key bindtap="tabItemSelect" data-idx="{{item.type_id}}">
+      {{item.type_name}}
+    </view>
+  </view>
+  <!-- <view class="cu-list grid col-{{gridCol}} navitem no-border" wx:if="{{hidden}}" style="top:{{CustomBar+32}}px;">
     <view class="cu-item" wx:for="{{navitems}}" wx:for-item="item" wx:key wx:if="{{index<gridCol*2}}" bindtap="tabItemSelect" data-idx="{{item.type_id}}">
       <view class="action">
         <view>
           <text class="cuIcon-title {{item.type_id==ItemCur?'text-pink':''}}"></text>{{item.type_name}}</view>
       </view>
     </view>
-  </view>
+  </view> -->
 </scroll-view>
 <view class='content'>
   <view class="cu-bar bg-white margin-top solid-bottom " wx:if="{{sp_catalogs.length<=0}}">

@@ -40,7 +40,7 @@
     <view class="cu-item">
       <view class='content'>
         <view class="canui-xzwz text-df">{{address.full_address}}</view>
-        <view class='text-gray text-sm'>{{address.contact}}     {{address.phone}}</view>
+        <view class='text-gray text-sm'>{{address.contact}} {{address.phone}}</view>
       </view>
     </view>
   </view>
@@ -100,10 +100,20 @@
     </view>
   </view>
 </view>
-
-<view class="bg-white canui-foor-fixed canui-submit-view canui-submit-order">
+<view class="cu-bar bg-white tabbar border shop canui-foor-fixed">
+  <text class='text-red text-price padding'>{{goods.money}}</text>
+  <!-- 
+  <view class="action">
+    <view class="cuIcon-cart">
+    </view>
+    购物车
+  </view>
+  <view class="bg-orange submit">加入购物车</view> -->
+  <view class="bg-red submit" bindtap='submitOrder'>提交订单</view>
+</view>
+<!-- <view class="bg-white canui-foor-fixed canui-submit-view canui-submit-order">
   <view class="canui-submit">
-    <text class='text-red text-price canui-price'>{{goods.money}}</text>
+    <text class='text-red text-price padding'>{{goods.money}}</text>
     <text class='bg-red canui-submit-btn' bindtap='submitOrder'>提交订单</text>
   </view>
-</view>
+</view> -->
