@@ -1,6 +1,6 @@
 <!--pages/copyright/copyright.wxml-->
 <template name="copyright">
   <view class="copyright">
-    福进信息科技有限公司
+    深圳市万德昌科技有限公司
   </view>
 </template>

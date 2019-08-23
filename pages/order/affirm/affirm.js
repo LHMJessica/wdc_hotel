@@ -13,19 +13,37 @@ Page({
     CustomBar: app.globalData.CustomBar,
     CustomBarText: "确认订单",
     devices: [],
-    currdevice: 0
+    currroom: 0,
+    address:null,
+    room:null
+    //currdevice: 0
   },
-  onLoad: function (options) {
-   var goods=wx.getStorageSync("goods");
-    if (goods){
+  onLoad: function(options) {
+    var goods = wx.getStorageSync("goods");
+    if (goods) {
       this.setData({
         goods: goods
       });
+    }
+   // this.getOnlineDevice();
+    if (this.data.address == null || this.data.address == {}){
+     this.getDefaultAddress();
    }
-    this.getOnlineDevice();
+  },
+  formatStr:function(str){
+    if(str==undefined){
+      return "";
+    }
+    return str;
+  },
+  roomChange(e) {
+    //console.log(e);
+    this.setData({
+      currroom: e.detail.value
+    })
   },
   /* 减数 */
-  delCount: function (e) {
+  delCount: function(e) {
     console.log("刚刚您点击了减1");
     var count = this.data.goods.count;
     // 商品总数量-1
@@ -39,7 +57,7 @@ Page({
     this.priceCount();
   },
   /* 加数 */
-  addCount: function (e) {
+  addCount: function(e) {
     console.log("刚刚您点击了加1");
     var count = this.data.goods.count;
     // 商品总数量-1  
@@ -52,28 +70,29 @@ Page({
     });
     this.priceCount();
   },
-  toscan:function(){
+  toscan: function() {
     var that = this;
     wx.scanCode({
       success: (res) => {
         var show = "--result:" + res.result + "--scanType:" + res.scanType + "--charSet:" + res.charSet + "--path:" + res.path;
         console.log(show);
         var params = config.service.host + "funid=app_full&eventcode=qryDeviceAddress&qrcode=" + res.result;
-        $ajax._post(params, function (res) {
+        $ajax._post(params, function(res) {
           console.log(res);
           that.setData({
-            address: res.data
+            address: res.data,
+            picker: JSON.parse(res.data.rooms)
           });
-        }, function () { });
+        }, function() {});
       },
       fail: (res) => {
 
       },
-      complete: (res) => { }
+      complete: (res) => {}
     })
   },
   //价格计算
-  priceCount: function (e) {
+  priceCount: function(e) {
     this.data.goods.totalMoney = (this.data.goods.dollar_price * this.data.goods.count).toFixed(2);
     this.data.goods.totalRMoney = (this.data.goods.sale_price * this.data.goods.count).toFixed(2);
     var discount = (this.data.goods.discount < 1 ? (1 - this.data.goods.discount) : 0);
@@ -83,44 +102,48 @@ Page({
       goods: this.data.goods
     })
   },
-  getOnlineDevice: function () {
+  getOnlineDevice: function() {
     var that = this;
     var user = wx.getStorageSync("user");
     var params = config.service.host + "funid=app_full&eventcode=qryonlineDevice";
-    $ajax._post(params, function (res) {
+    $ajax._post(params, function(res) {
       that.setData({
         devices: res.data
       })
-    }, function (error) {
+    }, function(error) {
       wx.showToast({
         title: '请求失败了!',
         icon: 'none',
         duration: 5000,
-        success: function (res) {
+        success: function(res) {
           //  同步清理本地缓存
-         // wx.clearStorageSync();
+          // wx.clearStorageSync();
         }
       });
     });
   },
-  submitOrder: function () {
+  submitOrder: function() {
     if (!this.data.goods) {
       wx.showToast({
         title: '选择商品不能为空',
-        icon:"none"
+        icon: "none"
       });
       return;
     }
     if (!this.data.address) {
       wx.showToast({
-        title: '收货不能为空',
+        title: '收货地址不能为空',
         icon: "none"
       });
       return;
     }
     var goods = this.data.goods;
     var address = this.data.address;
-    var device = this.data.devices[this.data.currdevice];
+    //var device = this.data.devices[this.data.currdevice];
+    var room = {};
+    if (this.data.picker){
+      this.data.picker[this.data.currroom];
+    }
     var user = wx.getStorageSync("user");
     //拼接订单详情
     var orderdetail = {
@@ -135,10 +158,10 @@ Page({
     };
     //拼接请求参数
     var params = config.service.host + "funid=app_full&eventcode=addOrder&order_type=1&status=4&account_code=" + user.account_code +
-      "&account_img=123&account_name=" + user.account_name + "&sp_num=" + goods.count + "&pay_money=" + goods.money + "&device_code=" + device.device_code + "&device_name=" + device.device_name + "&hotal_name=" + address.hotal_name + "&hotal_address=" + address.hotal_address + "&area_code=" + address.area_code + "&area_name=" + address.area_name + "&area_id=" + device.area_id + "&hotal_id=" + address.hotal_id + "&device_id=" + device.device_id + "&member_id=" + user.member_id + "&room_name=" + address.room + "&device_take=" + goods.status + "&detail=" + JSON.stringify(orderdetail);
-    $ajax._post(params, function (res) {
+      "&account_img=123&account_name=" + user.account_name + "&sp_num=" + goods.count + "&pay_money=" + goods.money + "&hotal_name=" + this.formatStr(address.hotal_name) + "&hotal_address=" + this.formatStr(address.hotal_address) + "&area_code=" + this.formatStr(address.area_code) + "&area_name=" + this.formatStr(address.area_name) + "&area_id=" + this.formatStr(address.area_id) + "&hotal_id=" + this.formatStr(address.hotal_id) + "&member_id=" + user.member_id + "&room_name=" + this.formatStr(room.room_no) + "&device_take=" + goods.status + "&detail=" + JSON.stringify(orderdetail) + "&contact=" + this.formatStr(address.contact) + "&full_address=" + this.formatStr(address.full_address) + "&phone=" + this.formatStr(address.phone);
+    $ajax._post(params, function(res) {
       console.log(res)
-      if (res.success) {
+      if (res.data.type!="error") {
         wx.removeStorageSync("goods");
         var order_id = res.data.data;
         wx.redirectTo({
@@ -146,42 +169,37 @@ Page({
           url: '../../order/details/detaild?orderid=' + order_id,
         })
       }
-    }, function () {
+    }, function() {
 
     });
   },
-  chooseaddress:function(){
-    var that=this;
-    wx.authorize({
-      scope: 'scope.address',
-      success(res) {
-        wx.chooseAddress({
-          success: function (res) {
-            let address={
-              "contact":res.userName,
-              "phone":res.telNumber,
-              "province":res.provinceName,
-              "city":res.cityName,
-              "area":res.countyName,
-              "detailed":res.detailInfo,
-              "full_address": res.provinceName + res.cityName + res.countyName + res.detailInfo
-            }
-            that.setData({
-              address: address
-            });
-          },
-          fail: function (err) {
-            wx.showToast({
-              title: "请尽快填写收货地址",
-              icon: "none"
-            })
-          }
-        })
-      },
-      fail(res) {
-        //用户拒绝授权后执行
-        wx.openSetting({})
-      }
+  chooseaddress: function() {
+    var that = this;
+    wx.navigateTo({
+      url: '../../owner/addresslist/addresslist?choose=true',
     })
+  },
+  /**获取用户的默认地址 */
+  getDefaultAddress: function() {
+    var that = this;
+    var user = wx.getStorageSync("user");
+    var params = config.service.host + "funid=app_full&eventcode=qryDefaultAddress&member_id=" + user.member_id;
+    $ajax._post(params, function(res) {
+     // console.log(res.data);
+      that.setData({
+        address: res.data
+      })
+      //console.log(res);
+    }, function(error) {
+      wx.showToast({
+        title: '请求失败了!',
+        icon: 'none',
+        duration: 5000,
+        success: function(res) {
+          //  同步清理本地缓存
+          wx.clearStorageSync();
+        }
+      });
+    });
   }
 })

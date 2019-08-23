@@ -1,46 +1,49 @@
 <cu-custom isBack="{{true}}" class='text-white'>
   <view slot="content">{{CustomBarText}}</view>
 </cu-custom>
-<view class="padding canui-card-fiex-radius-box" bindtap='toscan' wx:if="{{address ==null && goods.status == 1}}">
-  <view class="cu-list menu bg-white">
-    <view class="cu-item">
-      <view class='content'>
-        <view class="canui-xzwz text-df">点击此处扫码获取您的位置</view>
-      </view>
-      <view class='action'>
-        <view class='text-grey icon-right'></view>
-      </view>
-    </view>
-  </view>
+<view class="padding flex flex-direction" wx:if="{{address ==null && goods.status == 1}}">
+  <button class="cu-btn bg-orange margin-tb-sm lg" bindtap='toscan'>点击此处扫码获取您的位置</button>
 </view>
-<view class="padding canui-card-fiex-radius-box" bindtap='chooseaddress' wx:if="{{address ==null && goods.status == 0}}">
-  <view class="cu-list menu bg-white">
-    <view class="cu-item">
-      <view class='content'>
+<view class="padding flex flex-direction" wx:if="{{address ==null && goods.status == 0}}">
+  <button class="cu-btn bg-orange margin-tb-sm lg" bindtap='chooseaddress'>点击此处选择收货地址</button>
+</view>
+<!-- <view class="padding canui-card-fiex-radius-box" bindtap='chooseaddress' wx:if="{{address ==null && goods.status == 0}}">
+  <view class="cu-list menu bg-pink">
+    <view class="cu-item bg-pink">
+      <view class='content bg-pink'>
         <view class="canui-xzwz text-df">点击此处选择收货地址</view>
       </view>
-      <view class='action'>
-        <view class='text-grey icon-right'></view>
-      </view>
     </view>
   </view>
-</view>
+</view> -->
 <view class="padding canui-card-fiex-radius-box" wx:if="{{address!=null  && goods.status == 1}}">
   <view class="cu-list menu bg-white">
     <view class="cu-item">
       <view class='content'>
         <view class="canui-xzwz text-df">{{address.hotal_address}}</view>
         <view class='text-gray text-sm'>{{address.floor}}楼{{address.room}}</view>
+        
+      <view class="cu-form-group">
+        <view class="title">房间号</view>
+        <picker bindchange="roomChange" value="{{picker[currroom].room_no}}" data-idx="{{currroom}}" range="{{picker}}" range-key="room_no">
+          <view class="picker">
+            {{picker[currroom].room_no}}
+          </view>
+        </picker>
+      </view>
       </view>
     </view>
   </view>
 </view>
 <view class="padding canui-card-fiex-radius-box" wx:if="{{address!=null  && goods.status == 0}}">
-  <view class="cu-list menu bg-white">
+  <view class="cu-list menu bg-white" bindtap='chooseaddress'>
     <view class="cu-item">
       <view class='content'>
         <view class="canui-xzwz text-df">{{address.full_address}}</view>
         <view class='text-gray text-sm'>{{address.contact}} {{address.phone}}</view>
+      </view>
+      <view class='action'>
+        <text class='cuIcon-right'></text>
       </view>
     </view>
   </view>

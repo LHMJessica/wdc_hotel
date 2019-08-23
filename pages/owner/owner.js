@@ -18,7 +18,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    
   },
   onPullDownRefresh: function () {
     console.log('--------下拉刷新-------')
@@ -34,22 +34,19 @@ Page({
    */
   onShow: function () {
     var user = wx.getStorageSync("user");
-    var token = wx.getStorageSync("token");
-    this.setData({
-      token: token
-    })
     if (user) {
       this.setData({
         user: user
       });
+        this.getNoread();
     } else {
-      wx.redirectTo({
+      wx.navigateTo({
         url: '../owner/login/login'
       })
     }
+   // console.log(user);
   },
   onReady:function(){
-    this.getNoread();
   },
   getNoread:function(){
     var that = this;

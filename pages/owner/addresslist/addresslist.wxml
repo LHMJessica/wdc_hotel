@@ -1,0 +1,24 @@
+<!--pages/owner/addresslist/addresslist.wxml-->
+<cu-custom isBack="{{true}}" class='text-white'>
+  <view slot="content">{{CustomBarText}}</view>
+</cu-custom>
+<view class="cu-list menu margin">
+  <view class="cu-item" wx:for="{{addressList}}" wx:key>
+    <view class="content solid-right" bindtap='{{choose?"chooseAddress":""}}' data-idx='{{index}}'>
+      <view>
+        <text class="text-cut">{{item.contact}}</text>
+        <view class="cu-tag md">{{item.phone}}</view>
+      </view>
+      <view class="text-gray text-sm flex">
+        <view wx:if="{{item.isdefault==1}}" class="cu-tag bg-orange radius text-center" role="" aria-label="">默认</view>
+        <text>{{item.full_address}}</text>
+      </view>
+    </view>
+    <button class="action cu-btn bg-gray button-hover" role="button" aria-label="" aria-disabled="false" bindtap='modifyaddress' data-idx='{{index}}'>编辑</button>
+  </view>
+</view>
+
+<view class="padding-xl">
+  <button class="cu-btn block line-pink lg" bindtap='toadd'>
+    <text class="cuIcon-add"></text>添加收货地址</button>
+</view>

@@ -1,0 +1,16 @@
+/* pages/owner/addresslist/addresslist.wxss */
+.cu-list.menu>.cu-item .action{
+  width: 20%;
+}
+.cu-list.menu>.cu-item .content{
+  width: 80%;
+}
+.cu-tag{
+  font-size: 20rpx;
+  height: auto;
+  padding: 0 8rpx;
+  margin:0rpx 15rpx 0rpx 15rpx;
+}
+.cu-list .cu-item{
+  height: 150rpx;
+}

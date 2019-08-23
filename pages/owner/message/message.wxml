@@ -2,7 +2,10 @@
 <cu-custom isBack="{{true}}" class='text-white'>
   <view slot="content">{{CustomBarText}}</view>
 </cu-custom>
-<view class="cu-card dynamic}}">
+<view class="cu-card dynamic">
+  <view class="cu-item nodata" wx:if="{{messages.length<=0}}">
+    <view class="text-center padding">暂无数据</view>
+  </view>
   <view class="cu-item shadow" wx:for="{{messages}}" wx:for-item="item" wx:key>
     <view class="cu-list">
       <view class="cu-item padding">

@@ -11,7 +11,10 @@
     "pages/owner/settings/settings",
     "pages/owner/login/login",
     "pages/copyright/copyright",
-    "pages/comment/comment"
+    "pages/comment/comment",
+    "pages/log/log",
+    "pages/owner/addresslist/addresslist",
+    "pages/owner/modifyaddress/modifyaddress"
   ],
   "window": {
     "backgroundTextStyle": "light",

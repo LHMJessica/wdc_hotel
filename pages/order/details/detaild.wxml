@@ -55,19 +55,19 @@
   </view>
 </view>
 <view class="bg-img" wx:if="{{order.status==5}}" style="background-image: url('http://www.fujinsoftware.com:8080/znhotel_cloud/barCodeApi?data={{order.order_code}}');height: 414rpx;background-size:auto;">
-</view><!-- 
-<view class="margin-top order-address-box">
+</view> 
+<view class="margin-top order-address-box" wx:if="{{order.device_take=='0'}}">
   <view class="cu-list menu bg-white">
     <view class="cu-item">
       <view class='content'>
-        <view class="text-df">收货人
-          <text>13800138000</text>
+        <view class="text-df">{{order.contact}}
+          <text>{{order.phone}}</text>
         </view>
-        <view class='text-gray text-sm canui-xzwz'>地址：重庆市某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某某</view>
+        <view class='text-gray text-sm canui-xzwz'>{{order.full_address}}</view>
       </view>
     </view>
   </view>
-</view> -->
+</view>
 
 <view class="margin-top margin-bottom-xl bg-white order-details-log">
   <view class="order-menu-list solid-bottom">
@@ -79,15 +79,19 @@
       <text>下单时间：</text>
       <text class="text-gray">{{order.creation_time}}</text>
     </view>
-    <view class="log-list bg-white text-df">
+    <view class="log-list bg-white text-df" wx:if="{{order.pay_time}}">
+      <text>支付时间:</text>
+      <text class="text-gray">{{order.pay_time}}</text>
+    </view>
+    <view class="log-list bg-white text-df" wx:if="{{order.device_take=='1'}}">
       <text>酒店名称：</text>
       <text class="text-gray">{{order.hotal_name}}</text>
     </view>
-    <view class="log-list bg-white text-df">
+    <view class="log-list bg-white text-df" wx:if="{{order.device_take=='1'}}">
       <text>酒店地址：</text>
       <text class="text-gray">{{order.hotal_address}}</text>
     </view>
-    <view class="log-list bg-white text-df">
+    <view class="log-list bg-white text-df" wx:if="{{order.device_take=='1'}}">
       <text>房间编号：</text>
       <text class="text-gray">{{order.room_name}}</text>
     </view>

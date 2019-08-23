@@ -1,7 +1,14 @@
 <!--pages/owner/settings/settings.wxml-->
-<cu-custom isBack="{{true}}">
-  <view slot="content" class='text-white'>{{CustomBarText}}</view>
+<cu-custom isBack="{{true}}" class='text-white'>
+  <view slot="content">{{CustomBarText}}</view>
 </cu-custom>
-<text>pages/owner/settings/settings.wxml</text>
+<view class="cu-list menu sm-border margin-top">
+  <view class="cu-item arrow">
+    <navigator class="content" url="../addresslist/addresslist" hover-class="none">
+      <text class="cuIcon-location text-green"></text>
+      <text class="text-grey">收货地址</text>
+    </navigator>
+  </view>
+</view>
 <import src="../../copyright/copyright.wxml" />
 <template is="copyright" />

@@ -1,0 +1,4 @@
+/* pages/owner/modifyaddress/modifyaddress.wxss */
+.cu-form-group .title {
+  width: 30%;
+}

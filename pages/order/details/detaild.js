@@ -82,7 +82,7 @@ Page({
           wx.showLoading({
             title: '正在支付....'
           });
-          $ajax._post(config.service.host + "funid=app_api&eventcode=upPayOrder&order_code=" + that.data.order.order_code, function(res) {
+          $ajax._post(config.service.host + "funid=app_api&eventcode=upPayOrder&order_code=" + that.data.order.order_code + "&device_take=" + that.data.order.device_take, function(res) {
             wx.hideLoading();
             wx.showToast({
               title: '支付成功！',

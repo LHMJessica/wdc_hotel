@@ -9,7 +9,7 @@
       {{item.type_name}}
     </view>
   </view>
-  <scroll-view scroll-x class="bg-white navitem" scroll-with-animation scroll-left="{{scrollLeft}}" hidden='{{!hidden}}' style="top:{{CustomBar+45}}px;">
+  <scroll-view scroll-x class="bg-white navitem" scroll-with-animation hidden='{{!hidden}}' style="top:{{CustomBar+45}}px;">
     <view class="cu-item {{item.type_id==TabCur?'text-pink cur':''}}" wx:for="{{navitems}}" wx:for-item="item" wx:key bindtap="tabItemSelect" data-idx="{{item.type_id}}">
       {{item.type_name}}
     </view>

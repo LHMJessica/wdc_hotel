@@ -1,6 +1,6 @@
 <!--pages/owner/login/login.wxml-->
-<cu-custom isBack="{{true}}">
-  <view slot="content" class='text-white'>{{CustomBarText}}</view>
+<cu-custom class='text-white'>
+  <view slot="content">{{CustomBarText}}</view>
 </cu-custom>
 <view class="cu-card case">
   <view class="cu-item shadow">

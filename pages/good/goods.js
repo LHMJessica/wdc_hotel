@@ -15,10 +15,6 @@ Page({
     floorstatus: false
   },
   onLoad: function(options) {
-    wx.showLoading({
-      title: '加载中...',
-      mask: true
-    });
     let list = [{
       "name": "商品",
       "id": "0"
@@ -37,9 +33,6 @@ Page({
     this.goodsInfoShow(goodid);
     this.qryDetailImage(goodid);
     this.qryComment(goodid);
-  },
-  onReady() {
-    wx.hideLoading();
   },
   tabSelect: function(e) {
     this.setData({
@@ -84,21 +77,28 @@ Page({
           scrollLeft: (list[i].id - 1) * 60,
           TabCur: list[i].id
         })
-         return false
-      } 
+        return false
+      }
     }
   },
   toaffirmorder: function() {
-    this.data.goods.count = "1";
-    this.data.goods.totalMoney = (this.data.goods.dollar_price * this.data.goods.count).toFixed(2);
-    this.data.goods.totalRMoney = (this.data.goods.sale_price * this.data.goods.count).toFixed(2);
-    let discount = (this.data.goods.discount < 1 ? (1 - this.data.goods.discount) : 0);
-    this.data.goods.reduced = (this.data.goods.sale_price * this.data.goods.count * discount).toFixed(2);
-    this.data.goods.money = (this.data.goods.totalRMoney - this.data.goods.reduced).toFixed(2);
-    wx.setStorageSync("goods", this.data.goods);
-    wx.navigateTo({
-      url: '../order/affirm/affirm',
-    })
+    var user = wx.getStorageSync("user");
+    if (user) {
+      this.data.goods.count = "1";
+      this.data.goods.totalMoney = (this.data.goods.dollar_price * this.data.goods.count).toFixed(2);
+      this.data.goods.totalRMoney = (this.data.goods.sale_price * this.data.goods.count).toFixed(2);
+      let discount = (this.data.goods.discount < 1 ? (1 - this.data.goods.discount) : 0);
+      this.data.goods.reduced = (this.data.goods.sale_price * this.data.goods.count * discount).toFixed(2);
+      this.data.goods.money = (this.data.goods.totalRMoney - this.data.goods.reduced).toFixed(2);
+      wx.setStorageSync("goods", this.data.goods);
+      wx.navigateTo({
+        url: '../order/affirm/affirm',
+      })
+    } else {
+      wx.navigateTo({
+        url: '../owner/login/login',
+      })
+    }
   },
   goodsInfoShow: function(goodid) {
     var that = this;
@@ -133,7 +133,7 @@ Page({
   },
   qryDetailImage: function(goodid) {
     let that = this;
-    var params = config.service.host + "funid=queryevent&eventcode=query_data&query_funid=sp_details&limit=50&start=0&user_id=admin&where_sql=sp_details.sp_id ='" + goodid + "' order by sp_details.detail_sort asc";
+    var params = config.service.host + "funid=queryevent&eventcode=query_data&query_funid=sp_details&limit=50&start=0&user_id=admin&where_sql=sp_details.sp_id ='" + goodid + "'";
     $ajax._post(params, function(res) {
       //  console.log(params);
       // console.log(res);
@@ -146,7 +146,7 @@ Page({
       that.setData({
         details: details
       });
-
+      //  console.log(details);
     }, function(error) {
       wx.showToast({
         title: '请求失败了!',

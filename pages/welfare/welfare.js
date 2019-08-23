@@ -15,25 +15,6 @@ Page({
     CustomBarText: "福利"
   },
   /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    var user = wx.getStorageSync("user");
-    var token = wx.getStorageSync("token");
-    this.setData({
-      token: token
-    })
-    if (user) {
-      this.setData({
-        user: user
-      });
-    } else {
-      wx.redirectTo({
-        url: '../owner/login/login'
-      })
-    }
-  },
-  /**
   * 生命周期函数--监听页面加载
   */
   onLoad: function (options) {

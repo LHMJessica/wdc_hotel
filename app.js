@@ -57,12 +57,12 @@ App({
                 if (res.data != null && res.data != '' && res.data.openid != null && res.data.openid != '') {
                   var hul = "funid=app_full&eventcode=IsMember&account_type=1&code=" + res.data.openid + "&name=" + user.nickName + "&sex=" + user.gender + "&avatarUrl=" + user.avatarUrl;
                   $ajax._post(config.service.host + hul, function(res) {
+                   // console.log(res);
                     if (res.data.data) {
                       wx.setStorageSync("user", res.data.data);
                     }
-                    wx.switchTab({
-                      url: '/pages/home/home'
-                    })
+                    //console.log(wx.getStorageSync("user"));
+                   wx.navigateBack({})
                   });
                 } else {
                   wx.showToast({

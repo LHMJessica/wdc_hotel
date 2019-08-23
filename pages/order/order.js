@@ -20,14 +20,6 @@ Page({
     })
     this.qryOrders(idx);
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
-    var that = this;
-    //加载navbar导航条
-    that.navbarShow();
-  },
   onPullDownRefresh: function() {
     console.log('--------下拉刷新-------')
     wx.showNavigationBarLoading() //在标题栏中显示加载
@@ -51,8 +43,10 @@ Page({
       this.setData({
         user: user
       });
+      //加载navbar导航条
+      this.navbarShow();
     } else {
-      wx.redirectTo({
+      wx.navigateTo({
         url: '../owner/login/login'
       })
     }
