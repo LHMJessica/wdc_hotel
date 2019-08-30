@@ -1,66 +1,63 @@
 <cu-custom isBack="{{true}}" class='text-white'>
   <view slot="content">{{CustomBarText}}</view>
 </cu-custom>
-<view class="padding flex flex-direction" wx:if="{{address ==null && goods.status == 1}}">
-  <button class="cu-btn bg-orange margin-tb-sm lg" bindtap='toscan'>点击此处扫码获取您的位置</button>
-</view>
-<view class="padding flex flex-direction" wx:if="{{address ==null && goods.status == 0}}">
-  <button class="cu-btn bg-orange margin-tb-sm lg" bindtap='chooseaddress'>点击此处选择收货地址</button>
-</view>
-<!-- <view class="padding canui-card-fiex-radius-box" bindtap='chooseaddress' wx:if="{{address ==null && goods.status == 0}}">
-  <view class="cu-list menu bg-pink">
-    <view class="cu-item bg-pink">
-      <view class='content bg-pink'>
-        <view class="canui-xzwz text-df">点击此处选择收货地址</view>
-      </view>
-    </view>
+<view class="cu-list menu margin">
+  <view class="flex flex-direction" wx:if="{{address ==null && goods.status == 1}}">
+    <button class="cu-btn bg-orange lg" bindtap='toscan'>点击此处扫码获取您的位置</button>
   </view>
-</view> -->
-<view class="padding canui-card-fiex-radius-box" wx:if="{{address!=null  && goods.status == 1}}">
-  <view class="cu-list menu bg-white">
-    <view class="cu-item">
-      <view class='content'>
-        <view class="canui-xzwz text-df">{{address.hotal_address}}</view>
-        <view class='text-gray text-sm'>{{address.floor}}楼{{address.room}}</view>
-        
-      <view class="cu-form-group">
-        <view class="title">房间号</view>
-        <picker bindchange="roomChange" value="{{picker[currroom].room_no}}" data-idx="{{currroom}}" range="{{picker}}" range-key="room_no">
-          <view class="picker">
-            {{picker[currroom].room_no}}
+  <view class="flex flex-direction" wx:if="{{address ==null && goods.status == 0}}">
+    <button class="cu-btn bg-orange lg" bindtap='chooseaddress'>点击此处选择收货地址</button>
+  </view>
+  <view class="radius" wx:if="{{address!=null  && goods.status == 1}}">
+    <view class="cu-list menu bg-white">
+      <view class="cu-item">
+        <view class='content'>
+          <view class="canui-xzwz text-df">{{address.hotal_address}}</view>
+          <view class='text-gray text-sm'>{{address.floor}}楼{{address.room}}</view>
+
+          <view class="cu-form-group">
+            <view class="title">房间号</view>
+            <picker bindchange="roomChange" value="{{picker[currroom].room_no}}" data-idx="{{currroom}}" range="{{picker}}" range-key="room_no">
+              <view class="picker">
+                {{picker[currroom].room_no}}
+              </view>
+            </picker>
           </view>
-        </picker>
-      </view>
-      </view>
-    </view>
-  </view>
-</view>
-<view class="padding canui-card-fiex-radius-box" wx:if="{{address!=null  && goods.status == 0}}">
-  <view class="cu-list menu bg-white" bindtap='chooseaddress'>
-    <view class="cu-item">
-      <view class='content'>
-        <view class="canui-xzwz text-df">{{address.full_address}}</view>
-        <view class='text-gray text-sm'>{{address.contact}} {{address.phone}}</view>
-      </view>
-      <view class='action'>
-        <text class='cuIcon-right'></text>
-      </view>
-    </view>
-  </view>
-</view>
-<view class="canui-card-order">
-  <view class="canui-order-item bg-white">
-    <view class="cu-list menu menu-avatar">
-      <navigator open-type="navigate" class="cu-item" hover-class='none' url="../../good/goods?goodid={{goods.sp_id}}">
-        <view class="cu-avatar radius lg">
-          <image src='{{goods.sp_img}}' mode='aspectFit' lazy-load></image>
         </view>
-        <view class='content canui-xzwz tow'>{{goods.sp_name}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="bg-white padding radius" wx:if="{{address!=null  && goods.status == 0}}">
+    <view class="cu-list menu bg-white" bindtap='chooseaddress'>
+      <view class="cu-item">
+        <view class='content'>
+          <view class="canui-xzwz text-df">{{address.full_address}}</view>
+          <view class='text-gray text-sm'>{{address.contact}} {{address.phone}}</view>
+        </view>
         <view class='action'>
-          <view class='text-price'>{{goods.sale_price}}</view>
-          <!-- <view class="text-xs text-right text-gray">x1</view> -->
+          <text class='cuIcon-right'></text>
         </view>
-      </navigator>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="cu-list menu-avatar margin">
+  <view class="cu-item">
+    <view class="cu-avatar radius lg">
+      <image src='https://hotel.pengshilin.com/resources/ATTACHDOC/sp_catalog/{{goods.sp_img}}' class="cu-avatar radius lg" mode='scaleToFill' lazy-load></image>
+    </view>
+    <view class="content">
+      <view>
+        <text class="text-cut">{{goods.sp_name}}</text>
+        <!--  <view class="cu-tag round bg-orange sm">断开连接...</view> -->
+      </view>
+      <view class="text-sm flex">
+        <text class="text-cut text-pink text-price">{{goods.sale_price}}</text>
+      </view>
+    </view>
+    <view class="action">
+      <import src="../../template/template.wxml" />
+      <template is="quantity" data="{{goods,index:index}}" />
     </view>
   </view>
 </view>
@@ -75,31 +72,40 @@
             </view>
         </view>
     </view> -->
-
-<view class="order-price-log">
-  <view class="bg-white log-card">
-    <view class="log-list">
+<view class="bg-white cu-list menu margin">
+  <!-- <view class="log-list">
       <text>商品数量</text>
-      <view class="stepper canui-text-right">
-        <!-- 减号 -->
-        <text class="sign {{goods.count <= 1 ? 'disabled' : 'normal'}}" bindtap="delCount" data-index="{{index}}">-</text>
-        <!-- 数值 -->
-        <input class="number" type="number" bindchange="bindManual" value="{{goods.count}}" disabled="disabled" />
-        <!-- 加号 -->
-        <text class="sign {{goods.count >= 10 ? 'disabled' : 'normal'}}" bindtap="addCount" data-index="{{index}}">+</text>
+      <view class="stepper canui-text-right"> -->
+  <!-- 减号 -->
+  <!-- <text class="sign {{goods.count <= 1 ? 'disabled' : 'normal'}}" bindtap="delCount" data-index="{{index}}">-</text> -->
+  <!-- 数值 -->
+  <!--  <input class="number" type="number" bindchange="bindManual" value="{{goods.count}}" disabled="disabled" /> -->
+  <!-- 加号 -->
+  <!-- <text class="sign {{goods.count >= 10 ? 'disabled' : 'normal'}}" bindtap="addCount" data-index="{{index}}">+</text>
       </view>
+    </view> -->
+  <view class="cu-item">
+    <view class="content">
+      <text class="text-grey">商品总价</text>
     </view>
-    <view class="log-list">
-      <text>商品总价</text>
-      <text class="text-price canui-text-right dollar-price">{{goods.totalMoney}}</text>
+    <view class="action">
+      <text class="text-price text-price">{{goods.totalRMoney}}</text>
     </view>
-    <view class="log-list" wx:if="{{goods.discount<1}}">
-      <text>优惠</text>
-      <text class="canui-text-right text-red">-<text class='text-price'>{{goods.reduced}}</text></text>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      <text class="text-grey">优惠</text>
     </view>
-    <view class="log-list bg-white text-df">
-      <text>订单总价</text>
-      <text class="text-price canui-text-right text-red">{{goods.money}}</text>
+    <view class="action">
+      <text class="text-red">-<text class='text-price'>{{goods.reduced}}</text></text>
+    </view>
+  </view>
+  <view class="cu-item">
+    <view class="content">
+      <text class="text-grey">订单总价</text>
+    </view>
+    <view class="action">
+      <text class="text-price text-red">{{goods.money}}</text>
     </view>
   </view>
 </view>
@@ -114,9 +120,3 @@
   <view class="bg-orange submit">加入购物车</view> -->
   <view class="bg-red submit" bindtap='submitOrder'>提交订单</view>
 </view>
-<!-- <view class="bg-white canui-foor-fixed canui-submit-view canui-submit-order">
-  <view class="canui-submit">
-    <text class='text-red text-price padding'>{{goods.money}}</text>
-    <text class='bg-red canui-submit-btn' bindtap='submitOrder'>提交订单</text>
-  </view>
-</view> -->

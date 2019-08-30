@@ -14,24 +14,27 @@ Page({
     CustomBarText: "确认订单",
     devices: [],
     currroom: 0,
-    address:null,
-    room:null
+    address: null,
+    room: null
     //currdevice: 0
   },
   onLoad: function(options) {
     var goods = wx.getStorageSync("goods");
     if (goods) {
+      console.log(goods);
       this.setData({
         goods: goods
       });
     }
-   // this.getOnlineDevice();
-    if (this.data.address == null || this.data.address == {}){
-     this.getDefaultAddress();
-   }
+    // this.getOnlineDevice();
+    if (this.data.goods.status == 0) {
+      if (this.data.address == null || this.data.address == {}) {
+        this.getDefaultAddress();
+      }
+    }
   },
-  formatStr:function(str){
-    if(str==undefined){
+  formatStr: function(str) {
+    if (str == undefined) {
       return "";
     }
     return str;
@@ -141,8 +144,8 @@ Page({
     var address = this.data.address;
     //var device = this.data.devices[this.data.currdevice];
     var room = {};
-    if (this.data.picker){
-      this.data.picker[this.data.currroom];
+    if (this.data.picker) {
+      room = this.data.picker[this.data.currroom];
     }
     var user = wx.getStorageSync("user");
     //拼接订单详情
@@ -156,21 +159,66 @@ Page({
       "money": goods.money,
       "shop_id": goods.sp_id
     };
+    let that = this;
     //拼接请求参数
-    var params = config.service.host + "funid=app_full&eventcode=addOrder&order_type=1&status=4&account_code=" + user.account_code +
-      "&account_img=123&account_name=" + user.account_name + "&sp_num=" + goods.count + "&pay_money=" + goods.money + "&hotal_name=" + this.formatStr(address.hotal_name) + "&hotal_address=" + this.formatStr(address.hotal_address) + "&area_code=" + this.formatStr(address.area_code) + "&area_name=" + this.formatStr(address.area_name) + "&area_id=" + this.formatStr(address.area_id) + "&hotal_id=" + this.formatStr(address.hotal_id) + "&member_id=" + user.member_id + "&room_name=" + this.formatStr(room.room_no) + "&device_take=" + goods.status + "&detail=" + JSON.stringify(orderdetail) + "&contact=" + this.formatStr(address.contact) + "&full_address=" + this.formatStr(address.full_address) + "&phone=" + this.formatStr(address.phone);
-    $ajax._post(params, function(res) {
-      console.log(res)
-      if (res.data.type!="error") {
-        wx.removeStorageSync("goods");
-        var order_id = res.data.data;
-        wx.redirectTo({
-          ///pages/order/details/detaild?orderid={{item.order_id}}
-          url: '../../order/details/detaild?orderid=' + order_id,
-        })
+    /* var params = config.service.host + "funid=app_full&eventcode=addOrder&order_type=1&status=4&account_code=" + user.account_code +
+      "&account_img=123&account_name=" + user.account_name + "&sp_num=" + goods.count + "&pay_money=" + goods.money + "&hotal_name=" + this.formatStr(address.hotal_name) + "&hotal_address=" + this.formatStr(address.hotal_address) + "&area_code=" + this.formatStr(address.area_code) + "&area_name=" + this.formatStr(address.area_name) + "&area_id=" + this.formatStr(address.area_id) + "&hotal_id=" + this.formatStr(address.hotal_id) + "&member_id=" + user.member_id + "&room_name=" + this.formatStr(room.room_no) + "&device_take=" + goods.status + "&detail=" + JSON.stringify(orderdetail) + "&contact=" + this.formatStr(address.contact) + "&full_address=" + this.formatStr(address.full_address) + "&phone=" + this.formatStr(address.phone); */
+    wx.request({
+      url: config.service.host,
+      'content-type': 'application/json',
+      method: 'GET',
+      data: {
+        'nousercheck': '1',
+        'funid': 'app_full',
+        'eventcode': 'addOrder',
+        'order_type': '1',
+        'status': '4',
+        'account_code': user.account_code,
+        'account_img': "123",
+        'account_name': user.account_name,
+        'sp_num': goods.count,
+        'pay_money': goods.money,
+        'hotal_name': that.formatStr(address.hotal_name),
+        'hotal_address': that.formatStr(address.hotal_address),
+        'area_code': that.formatStr(address.area_code),
+        'area_name': that.formatStr(address.area_name),
+        'area_id': that.formatStr(address.area_id),
+        'hotal_id': that.formatStr(address.hotal_id),
+        'member_id': user.member_id,
+        'room_name': that.formatStr(room.room_no),
+        'device_take': goods.status,
+        'detail': JSON.stringify(orderdetail),
+        'contact': that.formatStr(address.contact),
+        'full_address': that.formatStr(address.full_address),
+        'phone': that.formatStr(address.phone)
+      },
+      success: function(res) {
+        console.log(res)
+        if (res.data.data.type != "error") {
+          wx.removeStorageSync("goods");
+          let order_id = "";
+          if (res.data.data != undefined && res.data.data != "") {
+            order_id = res.data.data.data;
+          }
+          if (order_id != "" && order_id != undefined) {
+            wx.redirectTo({
+              ///pages/order/details/detaild?orderid={{item.order_id}}
+              url: '../../order/details/detaild?orderid=' + order_id,
+            })
+          }
+        }
+      },
+      fail: function() {
+        wx.showToast({
+          title: '请求失败了!',
+          icon: 'none',
+          duration: 5000,
+          success: function (res) {
+            //  同步清理本地缓存
+            //wx.clearStorageSync();
+          }
+        });
       }
-    }, function() {
-
     });
   },
   chooseaddress: function() {
@@ -185,7 +233,7 @@ Page({
     var user = wx.getStorageSync("user");
     var params = config.service.host + "funid=app_full&eventcode=qryDefaultAddress&member_id=" + user.member_id;
     $ajax._post(params, function(res) {
-     // console.log(res.data);
+      // console.log(res.data);
       that.setData({
         address: res.data
       })
@@ -197,7 +245,7 @@ Page({
         duration: 5000,
         success: function(res) {
           //  同步清理本地缓存
-          wx.clearStorageSync();
+        //  wx.clearStorageSync();
         }
       });
     });

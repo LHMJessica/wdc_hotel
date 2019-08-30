@@ -4,12 +4,12 @@
 </cu-custom>
 <form bindsubmit="formSubmit">
   <view class="cu-form-group margin-top">
-    <view class="title">联系人</view>
-    <input name="contact" placeholder="两字短标题" value='{{storageAddress.contact}}'></input>
+   <!--  <view class="title">收货人</view> -->
+    <input name="contact" placeholder="收货人" value='{{storageAddress.contact}}'></input>
   </view>
   <view class="cu-form-group">
-    <view class="title">联系电话</view>
-    <input name="phone" placeholder="输入框带标签" value='{{storageAddress.phone}}'></input>
+    <!-- <view class="title">联系电话</view> -->
+    <input name="phone" placeholder="联系电话" value='{{storageAddress.phone}}'></input>
     <view class="cu-capsule radius">
       <view class="cu-tag bg-blue">
         +86
@@ -20,7 +20,7 @@
     </view>
   </view>
   <view class="cu-form-group">
-    <view class="title">所在区域</view>
+    <view class="title text-grey">所在区域</view>
     <picker name="addresspicker" mode="region" bindchange="RegionChange" value="{{region}}" custom-item="{{customItem}}">
       <view class="picker">
         {{region[0]}}，{{region[1]}}，{{region[2]}}
@@ -29,13 +29,14 @@
   </view>
   <!-- !!!!! placeholder 在ios表现有偏移 建议使用 第一种样式 -->
   <view class="cu-form-group align-start">
-    <view class="title">详细地址</view>
-    <textarea name="detailed" maxlength="-1"   placeholder="多行文本输入框" value='{{storageAddress.detailed}}'></textarea>
+    <!-- <view class="title">详细地址</view> -->
+    <textarea name="detailed" maxlength="-1"   placeholder="详细地址" value='{{storageAddress.detailed}}'></textarea>
   </view>
 
   <view class="cu-form-group">
     <view class="title">设为默认地址</view>
-    <switch name="isdefault" class="red sm" checked="{{storageAddress.isdefault==0?'':'checked'}}"></switch>
+    <switch name="isdefault" class="red sm" checked="{{storageAddress.isdefault==1?'checked':''}}" wx:if="{{storageAddress.address_id}}"></switch>
+    <switch name="isdefault" class="red sm" wx:else></switch>
   </view>
   <!-- 
 	<view class="cu-form-group align-start">

@@ -33,7 +33,9 @@ function _post(url, _success, _fail) {
     data: {},
     success: function(res) {
       wx.hideLoading();
-      _success(res.data)
+      if(res.data!=undefined && res.data!=""){
+        _success(res.data);
+      }
     },
     fail: _fail
   });

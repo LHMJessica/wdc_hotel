@@ -54,28 +54,62 @@ Page({
     let countyName = e.detail.value.addresspicker[2]; //区
     let address = e.detail.value.detailed;
     let isAgree = that.data.isdefault;
+    console.log(provinceName + "," + cityName + "," + countyName + "," + address + "," + isAgree + "," + mobile + "," + consignee);
     isAgree = isAgree ? 0 : 1;
-    console.log(provinceName + "," + cityName + "," + countyName + "," + address + "," + isAgree + "," + mobile + "," + consignee); //输出该文本 
+    console.log(provinceName + "," + cityName + "," + countyName + "," + address + "," + isAgree + "," + mobile + "," + consignee);
     let user = wx.getStorageSync("user");
     let address_id = "";
-    if (that.data.storageAddress) { address_id=that.data.storageAddress.address_id}
+    if (that.data.storageAddress) {
+      address_id = that.data.storageAddress.address_id
+    }
     console.log(address_id);
-    let params = config.service.host + "funid=app_full&eventcode=upAddress&member_id=" + user.member_id + "&account_code=" + user.account_code + "&account_name=" + user.account_name + "&contact=" + consignee + "&phone=" + mobile + "&province=" + provinceName + "&city=" + cityName + "&area=" + countyName + "&detailed=" + address + "&isdefault=" + isAgree + "&full_address=" + provinceName + cityName + countyName + address + "&address_id=" + address_id;
-    $ajax._post(params, function(res) {
-      // console.log(res);
 
-    }, function(error) {
-      wx.showToast({
-        title: '请求失败了!',
-        icon: 'none',
-        duration: 5000,
-        success: function(res) {
-          //  同步清理本地缓存
-          // wx.clearStorageSync();
+   /*  let params = config.service.host + "funid=app_full&eventcode=upAddress&member_id=" + user.member_id + "&account_code=" + user.account_code + "&account_name=" + user.account_name + "&contact=" + consignee + "&phone=" + mobile + "&province=" + provinceName + "&city=" + cityName + "&area=" + countyName + "&detailed=" + address + "&isdefault=" + isAgree + "&full_address=" + provinceName + cityName + countyName + address + "&address_id=" + address_id; */
+    wx.request({
+      url: config.service.host,
+      'content-type': 'application/json',
+      method: 'GET',
+      data: {
+        'nousercheck': '1',
+        'funid': 'app_full',
+        'eventcode': 'upAddress',
+        'member_id': user.member_id,
+        'account_code': user.account_code,
+        'account_name': user.account_name,
+        'contact': consignee,
+        'phone': mobile,
+        'province': provinceName,
+        'city': cityName,
+        'area': countyName,
+        'detailed': address,
+        'isdefault': isAgree,
+        'full_address': provinceName + cityName + countyName + address,
+        'address_id': address_id
+      },
+      success: function(res) {
+        if (res.statusCode == 200) {
+          wx.showToast({
+            title: '您的收货地址已修改',
+            icon: 'none',
+            duration: 1000,
+            success: function(res) {
+              wx.navigateBack({})
+            }
+          });
         }
-      });
+      },
+      fail: function() {
+        wx.showToast({
+          title: '请求失败了!',
+          icon: 'none',
+          duration: 5000,
+          success: function(res) {
+            //  同步清理本地缓存
+            //wx.clearStorageSync();
+          }
+        });
+      }
     });
-    wx.navigateBack({})
   },
   /* 删除地址 */
 
@@ -93,7 +127,7 @@ Page({
         if (res.cancel) {
           //点击取消,默认隐藏弹框
         } else {
-          let params = config.service.host + "funid=app_full&eventcode=delAddress&address_id=" +that.data.storageAddress.address_id;
+          let params = config.service.host + "funid=app_full&eventcode=delAddress&address_id=" + that.data.storageAddress.address_id;
           $ajax._post(params, function(res) {
             wx.navigateBack({})
           }, function(error) {

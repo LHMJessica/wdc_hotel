@@ -10,16 +10,16 @@
     </scroll-view>
   </view>
 </view>
+<import src="../template/template.wxml" />
 <view class="HorizontalBox" style="margin-top:{{CustomBar}}px;">
   <scroll-view class="HorizontalMain" scroll-y="true" scroll-with-animation scroll-into-view="main-{{MainCur}}" style="height:calc( 100vh - 64px - 100rpx)" bindscroll="HorizontalMain">
     <!-- bindscroll="HorizontalMain" -->
     <view class="margin-bottom" id="main-0">
       <swiper class="screen-swiper square-dot bg-white" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
         <swiper-item wx:for="{{goods.imgurls}}" wx:for-item="item" wx:key="index">
-          <image src="{{item.url}}" mode='scaleToFill'></image>
+          <image src="https://hotel.pengshilin.com/resources/ATTACHDOC/sp_catalog/{{item.url}}" bindtap="previewImage" mode='scaleToFill'></image>
         </swiper-item>
       </swiper>
-
       <!--商品价格-->
       <view class="bg-white canui-goods-box" style='padding-top:10px;'>
         <text class="text-price text-red text-xl padding">{{goods.sale_price}}</text>
@@ -35,7 +35,6 @@
 
       <!--商品名称-->
       <view class="bg-white canui-goods-box canui-xzwz text-black padding">{{goods.sp_name}}</view>
-
       <!--商品属性-->
       <view class="bg-white grid col-3 canui-goods-box text-gray text-sm">
         <view class='padding-sm'>规格：{{goods.sp_size}}</view>
@@ -54,7 +53,7 @@
         <view class='padding text-centet bg-white'>暂无商品详情哦</view>
       </view>
       <view class='cu-item' wx:for="{{details}}" wx:key wx:if="{{details.length>0}}">
-        <image src='{{item.imgurl}}' class='detail-img' mode='scaleToFill'></image>
+        <image src='https://hotel.pengshilin.com/resources/ATTACHDOC/sp_details/{{item.img_path}}' class='detail-img' mode='widthFix'></image>
       </view>
     </view>
     <view class="margin-bottom" id="main-2">
@@ -68,7 +67,9 @@
       </view>
       <view class="cu-list menu-avatar comment solids-top" wx:if="{{comments.length>0}}">
         <view class="cu-item" wx:for="{{comments}}" wx:key>
-          <view class="cu-avatar round" style="background-image:url({{item.sp_comment__account_img}});"></view>
+          <view class="cu-avatar round lg">
+            <image src='{{item.sp_comment__account_img}}' class="cu-avatar round lg" mode='scaleToFill' lazy-load></image>
+          </view>
           <view class="content">
             <view class="text-grey">{{item.sp_comment__account_name}}</view>
             <view class="text-gray text-content text-df">
@@ -86,6 +87,41 @@
     </view>
   </scroll-view>
 </view>
+<!--加入购物车-->
+<view class="cu-modal bottom-modal {{modalName=='bottomModal'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-list menu-avatar margin">
+      <view class="cu-item">
+        <view class="cu-avatar radius lg">
+          <image wx:if="{{goods.status==0}}" src='https://hotel.pengshilin.com/resources/ATTACHDOC/sp_catalog/{{goods.sp_img}}' class="cu-avatar radius lg" mode='scaleToFill' lazy-load></image>
+        </view>
+        <view class="content">
+          <view>
+            <text class="text-cut">{{goods.sp_name}}</text>
+            <!--  <view class="cu-tag round bg-orange sm">断开连接...</view> -->
+          </view>
+          <view class="text-sm flex">
+            <text class="text-cut text-pink text-price">{{goods.sale_price}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="cu-item">
+        <view class="content">
+          <text class="text-black">加入购物车数量</text>
+        </view>
+        <view class="action">
+          <template is="quantity" data="{{goods,index:index}}" />
+        </view>
+      </view>
+    </view>
+    <view class="cu-bar bg-white tabbar">
+      <view class="submit text-pink" bindtap='addcart'>确定</view>
+      <view class="submit text-skyblue" bindtap="hideModal">取消</view>
+      <!-- <view class="bg-orange submit" wx:if="{{goods.status==0}}" bindtap="showModal">确定</view>
+      <view class="bg-red submit" bindtap='toaffirmorder'>取消</view> -->
+    </view>
+  </view>
+</view>
 <view class="cu-bar bg-white tabbar border shop canui-foor-fixed">
   <button class="action submit" open-type="contact">
     <view class=' text-green'>
@@ -97,7 +133,7 @@
     <view class="cuIcon-cart">
     </view>
     购物车
-  </view>
-  <view class="bg-orange submit">加入购物车</view> -->
+  </view> -->
+  <!-- <view class="bg-orange submit" wx:if="{{goods.status==0}}" bindtap="showModal">加入购物车</view>  -->
   <view class="bg-red submit" bindtap='toaffirmorder'>立即订购</view>
 </view>

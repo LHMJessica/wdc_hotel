@@ -12,9 +12,10 @@
     "pages/owner/login/login",
     "pages/copyright/copyright",
     "pages/comment/comment",
-    "pages/log/log",
     "pages/owner/addresslist/addresslist",
-    "pages/owner/modifyaddress/modifyaddress"
+    "pages/owner/modifyaddress/modifyaddress",
+    "pages/template/template",
+    "pages/cart/cart"
   ],
   "window": {
     "backgroundTextStyle": "light",

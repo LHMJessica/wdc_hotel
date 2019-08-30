@@ -21,9 +21,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    this.setData({
-      order_id: options.orderid
-    });
+    if (options.orderid != undefined && options.orderid != null && options.orderid != "") {
+      this.setData({
+        order_id: options.orderid
+      });
+    }
+    this.qryOrder();
+  },
+  qryOrder: function() {
     var that = this;
     var params = config.service.host + "funid=app_full&eventcode=qryOrderDetail&order_id=" + that.data.order_id;
     $ajax._post(params, function(res) {
@@ -87,17 +92,25 @@ Page({
             wx.showToast({
               title: '支付成功！',
             })
-            that.onLoad(); //支付成功后重新加载页面
+            that.qryOrder();
           }, function() {
             wx.hideLoading();
           });
         },
         fail: function(res) {
-          wx.showToast({
-            title: '支付失败',
-            icon: 'none',
-            duration: 2000,
-          })
+          if (res.errMsg == "requestPayment:fail cancel") {
+            wx.showToast({
+              title: '您已取消支付',
+              icon: 'none',
+              duration: 2000,
+            })
+          } else {
+            wx.showToast({
+              title: '支付失败，请重试',
+              icon: 'none',
+              duration: 2000,
+            })
+          }
           console.log(res)
         }
       });
@@ -131,7 +144,12 @@ Page({
         } else {
           var params = config.service.host + "funid=app_full&eventcode=setOrder&order_id=" + order_id + "&status=7";
           $ajax._post(params, function(res) {
-            that.onLoad();
+            wx.showToast({
+              title: '已为您取消订单',
+              icon: 'none',
+              duration: 1000,
+            })
+            that.qryOrder();
           }, function(error) {
             wx.showToast({
               title: '请求失败了!',
@@ -155,20 +173,20 @@ Page({
     let user = wx.getStorageSync("user");
     if (user) {
       let comment = {
-            "order_id": this.data.order.order_id,
-            "order_code": this.data.order.order_code,
-            "comment_star": 5,
-            "account_name": user.account_name,
-            "account_img": user.account_img,
-            "account_code": user.account_code,
-            "sp_code":this.data.orderdetail[0].sp_code,
-            "sp_name": this.data.orderdetail[0].sp_name,
-            "sp_id": this.data.orderdetail[0].shop_id,
-            "parent_id":this.data.orderdetail[0].shop_id
-          };
-          wx.navigateTo({
-            url: '../../comment/comment?comment=' + JSON.stringify(comment),
-          }) 
+        "order_id": this.data.order.order_id,
+        "order_code": this.data.order.order_code,
+        "comment_star": 5,
+        "account_name": user.account_name,
+        "account_img": user.account_img,
+        "account_code": user.account_code,
+        "sp_code": this.data.orderdetail[0].sp_code,
+        "sp_name": this.data.orderdetail[0].sp_name,
+        "sp_id": this.data.orderdetail[0].shop_id,
+        "parent_id": this.data.orderdetail[0].shop_id
+      };
+      wx.navigateTo({
+        url: '../../comment/comment?comment=' + JSON.stringify(comment),
+      })
     } else {
       wx.redirectTo({
         url: '.././owner/login/login'

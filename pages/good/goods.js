@@ -12,7 +12,8 @@ Page({
     scrollLeft: 0,
     list: [],
     load: true,
-    floorstatus: false
+    floorstatus: false,
+    goods: null
   },
   onLoad: function(options) {
     let list = [{
@@ -29,10 +30,34 @@ Page({
       list: list,
       listCur: list[0]
     })
-    var goodid = options.goodid;
-    this.goodsInfoShow(goodid);
-    this.qryDetailImage(goodid);
-    this.qryComment(goodid);
+    if (options.goodid != undefined && options.goodid != null && options.goodid != "") {
+      var goodid = options.goodid;
+      this.goodsInfoShow(goodid);
+      this.qryDetailImage(goodid);
+      this.qryComment(goodid);
+    }
+    
+  },
+  //预览图片
+  previewImage: function(e) {
+    var current = e.target.dataset.src;
+    var goodsimg = this.data.goods.imgurls;
+    console.log(JSON.stringify(goodsimg));
+    wx.previewImage({
+      current: current, // 当前显示图片的http链接  
+      urls: goodsimg // 需要预览的图片http链接列表  
+    })
+  },
+  showModal(e) {
+    this.calcPrice();
+    this.setData({
+      modalName: "bottomModal"
+    })
+  },
+  hideModal(e) {
+    this.setData({
+      modalName: null
+    })
   },
   tabSelect: function(e) {
     this.setData({
@@ -84,12 +109,7 @@ Page({
   toaffirmorder: function() {
     var user = wx.getStorageSync("user");
     if (user) {
-      this.data.goods.count = "1";
-      this.data.goods.totalMoney = (this.data.goods.dollar_price * this.data.goods.count).toFixed(2);
-      this.data.goods.totalRMoney = (this.data.goods.sale_price * this.data.goods.count).toFixed(2);
-      let discount = (this.data.goods.discount < 1 ? (1 - this.data.goods.discount) : 0);
-      this.data.goods.reduced = (this.data.goods.sale_price * this.data.goods.count * discount).toFixed(2);
-      this.data.goods.money = (this.data.goods.totalRMoney - this.data.goods.reduced).toFixed(2);
+      this.calcPrice();
       wx.setStorageSync("goods", this.data.goods);
       wx.navigateTo({
         url: '../order/affirm/affirm',
@@ -100,28 +120,124 @@ Page({
       })
     }
   },
+  calcPrice: function() {
+    this.data.goods.totalMoney = (this.data.goods.dollar_price * this.data.goods.count).toFixed(2);
+    this.data.goods.totalRMoney = (this.data.goods.sale_price * this.data.goods.count).toFixed(2);
+    let discount = (this.data.goods.discount < 1 ? (1 - this.data.goods.discount) : 0);
+    this.data.goods.reduced = (this.data.goods.sale_price * this.data.goods.count * discount).toFixed(2);
+    this.data.goods.money = (this.data.goods.totalRMoney - this.data.goods.reduced).toFixed(2);
+    this.setData({
+      goods: this.data.goods
+    })
+  },
+  /* 减数 */
+  delCount: function(e) {
+    console.log("刚刚您点击了减1");
+    var count = this.data.goods.count;
+    // 商品总数量-1
+    if (count > 1) {
+      this.data.goods.count--;
+    }
+    // 将数值与状态写回  
+    this.setData({
+      goods: this.data.goods
+    });
+    this.calcPrice();
+  },
+  /* 加数 */
+  addCount: function(e) {
+    console.log("刚刚您点击了加1");
+    var count = this.data.goods.count;
+    // 商品总数量-1  
+    if (count < 10) {
+      this.data.goods.count++;
+    }
+    // 将数值与状态写回  
+    this.setData({
+      goods: this.data.goods
+    });
+    this.calcPrice();
+  },
+  addcart: function() {
+    var user = wx.getStorageSync("user");
+    if (user) {
+      let that = this;
+      wx.request({
+        url: config.service.host,
+        'content-type': 'application/json',
+        method: 'GET',
+        data: {
+          'funid': 'app_full',
+          'eventcode': 'upCart',
+          'sp_code': that.data.comment.order_id,
+          'sp_name': that.data.comment.order_code,
+          'sp_size': that.data.comment.comment_star,
+          'sp_unit': that.data.comment.account_name,
+          'sale_price': that.data.comment.account_img,
+          'account_code': that.data.comment.account_code,
+          'sp_code': that.data.comment.sp_code,
+          'sp_name': that.data.comment.sp_name,
+          'sp_id': that.data.comment.sp_id,
+          'parent_id': that.data.comment.sp_id,
+          'content': that.data.comment.content
+        },
+        success: function(res) {
+          if (res.statusCode == 200) {
+            wx.showToast({
+              title: '您的评论已提交',
+              icon: 'none',
+              duration: 1000,
+              success: function(res) {
+                wx.navigateBack({
+                  delta: 1
+                });
+              }
+            });
+          }
+        },
+        fail: function() {
+          wx.showToast({
+            title: '请求失败了!',
+            icon: 'none',
+            duration: 5000,
+            success: function(res) {
+              //  同步清理本地缓存
+              //wx.clearStorageSync();
+            }
+          });
+        }
+      });
+    } else {
+      wx.navigateTo({
+        url: '../owner/login/login',
+      })
+    }
+  },
   goodsInfoShow: function(goodid) {
     var that = this;
     var params = config.service.host + "funid=app_full&eventcode=qryCatalogByID&sp_id=" + goodid;
     $ajax._post(params, function(res) {
-      let goods = res.data;
-      goods.imgurls = [];
-      goods.sp_img = config.service.host + "funid=sys_attach&pagetype=editgrid&eventcode=fdown&attach_field=sp_img&dataid=" + goods.sp_id + "&table_name=sp_catalog&datafunid=sp_catalog&dataType=byte&nousercheck=1&dc=1556729137482";
-      let imgurl = config.service.host + "funid=sp_catalog&nousercheck=1&pagetype=grid&eventcode=showpic&tablename=sp_catalog&dataType=json&user_id=administrator&keyid=" + goods.sp_id + "&_dc=1565855835928"
-      $ajax._post(imgurl, function(obj) {
-        for (var i in obj.data) {
-          let url = obj.data[i].url.substr(1, obj.data[i].url.length);
-          goods.imgurls.push({
-            "url": config.service.service + url + "&nousercheck=1"
-          });
-        }
-        that.setData({
-          goods: goods
-        })
-      }, function() {});
+      if(res.data!=undefined&& res.data!=null){
+        let goods = res.data;
+        goods.imgurls = [];
+        let imgurl = config.service.host + "funid=queryevent&eventcode=query_data&query_funid=sys_attach&limit=50&start=0&where_sql=sys_attach.data_id='"+goods.sp_id+"'&user_id=admin";
+        $ajax._post(imgurl, function (obj) {
+          if (obj.data != undefined && obj.data != "" && obj.data != null) {
+            for (var i in obj.data.root) {
+              goods.imgurls.push({
+                "url": obj.data.root[i].sys_attach__attach_name
+              });
+            }
+          }
+          goods.count = 1;
+          that.setData({
+            goods: goods
+          })
+        }, function () { });
+      }
     }, function(error) {
       wx.showToast({
-        title: '请求失败了!',
+        title: '网络异常!',
         icon: 'none',
         duration: 5000,
         success: function(res) {
@@ -133,15 +249,18 @@ Page({
   },
   qryDetailImage: function(goodid) {
     let that = this;
-    var params = config.service.host + "funid=queryevent&eventcode=query_data&query_funid=sp_details&limit=50&start=0&user_id=admin&where_sql=sp_details.sp_id ='" + goodid + "'";
+    var params = config.service.host + "funid=queryevent&eventcode=query_data&query_funid=sp_details&limit=50&start=0&user_id=admin&where_sql=sp_details.sp_id='" + goodid + "'";
     $ajax._post(params, function(res) {
       //  console.log(params);
       // console.log(res);
       let details = [];
-      for (let i in res.data.root) {
-        details.push({
-          imgurl: config.service.host + "funid=sys_attach&pagetype=editgrid&eventcode=fdown&attach_field=img_path&dataid=" + res.data.root[i].sp_details__detail_id + "&table_name=sp_details&datafunid=sp_catalog&dataType=byte&nousercheck=1&dc=1556729137482"
-        });
+      if (res.data != undefined && res.data != "") {
+        for (let i in res.data.root) {
+          details.push({
+            img_path: res.data.root[i].sp_details__img_path
+          });
+        }
+        console.log(details);
       }
       that.setData({
         details: details
@@ -161,14 +280,19 @@ Page({
   },
   qryComment: function(goodid) {
     let that = this;
-    var params = config.service.host + "funid=queryevent&eventcode=query_data&query_funid=sp_comment&limit=1&start=0&user_id=admin&where_sql=sp_comment.sp_id ='" + goodid + "' order by sp_comment.comment_date desc";
+    var params = config.service.host + "funid=queryevent&eventcode=query_data&query_funid=sp_comment&limit=1&start=0&user_id=admin&where_sql=sp_comment.sp_id='" + goodid + "'";
     $ajax._post(params, function(res) {
       // console.log(res);
-      for (let i in res.data.root) {
-        res.data.root[i].sp_comment__comment_star = parseInt(res.data.root[i].sp_comment__comment_star);
+
+      let comments = [];
+      if (res.data != undefined && res.data != "") {
+        for (let i in res.data.root) {
+          res.data.root[i].sp_comment__comment_star = parseInt(res.data.root[i].sp_comment__comment_star);
+        }
+        comments = res.data.root;
       }
       that.setData({
-        comments: res.data.root
+        comments: comments
       });
     }, function(error) {
       wx.showToast({

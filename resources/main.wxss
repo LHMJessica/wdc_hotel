@@ -30,6 +30,7 @@ page {
 	--gray: #aaaaaa;
 	--ghostWhite: #f1f1f1;
 	--white: #ffffff;
+  --skyblue:skyblue;
 	/* 浅色 */
 	--redLight: #fadbd9;
 	--orangeLight: #fde6d2;
@@ -3436,7 +3437,10 @@ scroll-view.cu-steps .cu-item {
 	background-color: var(--red);
 	color: var(--white);
 }
-
+.bg-skyblue{
+  background-color: var(--skyblue);
+	color: var(--white);
+}
 .bg-orange {
 	background-color: var(--orange);
 	color: var(--white);
@@ -3857,7 +3861,11 @@ scroll-view.cu-steps .cu-item {
 .lines-red {
 	color: var(--red);
 }
-
+.text-skyblue,
+.line-skyblue,
+.lines-skyblue {
+	color: var(--skyblue);
+}
 .text-orange,
 .line-orange,
 .lines-orange {

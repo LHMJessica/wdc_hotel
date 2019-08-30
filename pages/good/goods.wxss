@@ -68,3 +68,9 @@
 .margin-bottom {
   margin-bottom:15rpx;
 }
+.cu-list.menu-avatar>.cu-item .action{
+  width: auto;
+}
+.cu-list.menu-avatar>.cu-item>.cu-avatar{
+  left: 20rpx;
+}

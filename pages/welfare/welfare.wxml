@@ -9,26 +9,26 @@
   </view>
 </view>
 <view class="padding-sm bg-white">
-   <scroll-view scroll-y style='padding:0 0;'>    
-    <view class="flex-sub margin-xs radius" bindtap='toshopdetail' wx:for="{{sp_catalogs}}" wx:for-item="item" wx:key wx:key data-goodid="{{item.sp_id}}">
-      <image class='shop-img' src="{{item.sp_img}}"></image>
-      <view class='text-darkGray'>{{item.sp_name}}</view>
-      <view class='flex margin-xs'>
-        <view class='flex-sub text-pink text-price'>{{item.sale_price}}</view>
-        <view class='flex-sub' wx:if="{{item.discount<1}}">
-          <view class="cu-capsule radius">
-            <view class="cu-tag bg-brown sm">
-              <text>折</text>
-            </view>
-            <view class="cu-tag line-brown sm">
-              {{item.discount*10}}
+   <scroll-view scroll-y style='padding:0 0;'>
+      <view class="flex-sub margin-xs radius" wx:for="{{sp_catalogs}}" wx:for-item="item" wx:key  bindtap='toshopdetail' data-goodid="{{item.sp_id}}">
+        <image class='shop-img' src="https://hotel.pengshilin.com/resources/ATTACHDOC/sp_catalog/{{item.sp_img}}" lazy-load></image>
+        <view class='text-darkGray sp_name'>{{item.sp_name}}</view>
+        <view class='flex margin-xs'>
+          <view class='flex-sub text-pink text-price'>{{item.sale_price}}
+          </view>
+          <view class='flex-sub text-right' wx:if="{{item.discount < 1}}">            
+            <view class="cu-capsule radius" wx:if="{{item.discount < 1}}">
+              <view class="cu-tag line-brown sm">
+                {{item.discount*10}}
+              </view>
+              <view class="cu-tag bg-brown sm">
+                <text>折</text>
+              </view>
             </view>
           </view>
         </view>
-
       </view>
-    </view>
-  </scroll-view>
+    </scroll-view>
 </view>
 <import src="../copyright/copyright.wxml" />
 <template is="copyright" />

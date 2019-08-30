@@ -1,0 +1,32 @@
+<cu-custom>
+  <view slot="content">{{CustomBarText}}</view>
+</cu-custom>
+<view class="cu-bar bg-white margin-top solid-bottom" style="top:{{CustomBar}}px;" wx:if="{{carts.length<=0}}">
+  <view class="action">
+    <view>
+      <text class="cuIcon-title text-red"></text>这里没有你要的东西哦~</view>
+  </view>
+</view>
+<view class="cu-list menu-avatar margin-top" style="top:{{CustomBar}}px;">
+  <view class="cu-item ">
+    <text class="cuIcon-round text-grey cu-check"></text>
+    <view class="cu-avatar radius lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png);"></view>
+    <view class="content">
+      <view class="text-pink">
+        <text class="text-cut">莫甘娜</text>
+      </view>
+      <view class="text-gray text-sm flex">
+        <text class="text-cut">凯尔，你被自己的光芒变的盲目！</text>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="cu-bar bg-white tabbar border shop canui-foor-fixed">
+  <view class="action text-gray text-center">
+    <text class="cuIcon-round">全选</text>
+  </view>
+  <view class="bg-white submit text-right">合计:
+    <text class='text-pink text-price'>0</text>
+  </view>
+  <view class="bg-red submit">立即结算</view>
+</view>

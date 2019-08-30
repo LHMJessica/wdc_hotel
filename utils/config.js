@@ -3,8 +3,8 @@
  */
 
 // 此处主机域名修改成腾讯云解决方案分配的域名
-var host = 'http://www.fujinsoftware.com:8080/znhotel_cloud//fileAction.do?&nousercheck=1&';
-var service ='http://www.fujinsoftware.com:8080/znhotel_cloud/'
+var host = 'https://hotel.pengshilin.com//fileAction.do?&nousercheck=1&';
+var service ='https://hotel.pengshilin.com/resources/ATTACHDOC/'
 var apikey = 'wx3eabd70e64011a0f';
 var wss='';
 var config = {

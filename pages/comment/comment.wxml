@@ -11,7 +11,7 @@
   </view>
   <view class="cu-form-group align-start">
     <view class="title">内容</view>
-    <textarea maxlength="-1" disabled="{{modalName!=null}}" bindinput="textareaBInput" placeholder="多行文本输入框"></textarea>
+    <textarea maxlength="-1" disabled="{{modalName!=null}}" bindinput="textareaBInput" placeholder="在此填写评价内容"></textarea>
   </view>
 </form>
 <view class="padding flex flex-direction">

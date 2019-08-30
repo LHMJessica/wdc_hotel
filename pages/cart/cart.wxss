@@ -1,0 +1,26 @@
+/* pages/cart/cart.wxss */
+
+.cu-bar.tabbar .action [class*="cuIcon-"] {
+  font-size: 32rpx;
+  display: inline-block;
+}
+
+.cu-list.menu-avatar>.cu-item .content>text[class*=cuIcon] {
+  display: inline-block;
+  margin-right: 10rpx;
+  width: 1.6em;
+  text-align: center;
+}
+
+.cu-list.menu-avatar>.cu-item>.cu-avatar {
+  position: absolute;
+  left: 70rpx;
+}
+.cu-list.menu-avatar>.cu-item>.cu-check {
+  position: absolute;
+  left: 15rpx;
+  font-size: 40rpx;
+}
+.cu-list.menu-avatar>.cu-item .content{
+  left: 176rpx;
+}

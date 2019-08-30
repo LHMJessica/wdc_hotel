@@ -16,7 +16,7 @@
       <view class="cu-list menu menu-avatar">
         <view class="cu-item">
           <view class="cu-avatar radius lg" >
-            <image src='{{item.sp_img}}' mode='aspectFit' lazy-load></image>
+            <image src='https://hotel.pengshilin.com/resources/ATTACHDOC/sp_catalog/{{item.sp_img}}' mode='aspectFit' lazy-load></image>
           </view>
           <view class='content canui-xzwz tow'>{{item.sp_name}}</view>
           <view class='action '>

@@ -48,3 +48,6 @@
   opacity: 0.9;
   width: 100%;
 }
+.cuIcon-cart{
+  font-size: 40rpx;
+}

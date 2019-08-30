@@ -41,8 +41,8 @@ App({
      */
     wx.login({
       success: function(res) {
-        if (res.code) {
-          var codeToken = res.code; //  有效期为5分钟的令牌
+        if (res.code != "" && res.code!=undefined ) {
+          let codeToken = res.code; //  有效期为5分钟的令牌
           /**
            * 唤起微信请求授权会话框
            */
@@ -50,19 +50,52 @@ App({
             //  用户回应结果
             success: function(res) {
               //  根据Openid查询是否存在该用户，有就返回信息没有就注册返回注册后的用户信息
-              var user = res.userInfo;
+              let user = res.userInfo;
               //  根据Openid查询是否存在该用户，有就返回信息没有就注册返回注册后的用户信息
-              var hurl = config.service.host + 'funid=app_full&eventcode=wxLogin&js_code=' + codeToken;
+              let hurl = config.service.host + 'funid=app_full&eventcode=wxLogin&js_code=' + codeToken;
               $ajax._post(hurl, function(res) {
-                if (res.data != null && res.data != '' && res.data.openid != null && res.data.openid != '') {
-                  var hul = "funid=app_full&eventcode=IsMember&account_type=1&code=" + res.data.openid + "&name=" + user.nickName + "&sex=" + user.gender + "&avatarUrl=" + user.avatarUrl;
-                  $ajax._post(config.service.host + hul, function(res) {
-                   // console.log(res);
-                    if (res.data.data) {
-                      wx.setStorageSync("user", res.data.data);
+                if (res.data != null && res.data !=undefined && res.data != '' && res.data.openid != null && res.data.openid != '') {
+                  console.log(res);
+                  let that = this;
+                  wx.request({
+                    url: config.service.host,
+                    'content-type': 'application/json',
+                    method: 'GET',
+                    data: {
+                      'funid': 'app_full',
+                      'eventcode': 'IsMember',
+                      'account_type': 1,
+                      'code': res.data.openid,
+                      'name': user.nickName,
+                      'sex': user.gender,
+                      'avatarUrl': user.avatarUrl
+                    },
+                    success: function (res) {
+                      console.log(res);
+                      if (res.statusCode == 200) {
+                        console.log(res);
+                        if (res.data.data) {
+                          console.log(res);
+                          wx.setStorageSync("user", res.data.data.data);
+                        }
+                        //console.log(wx.getStorageSync("user"));
+                        wx.navigateBack({})
+                      }
+                    },
+                    fail: function () {
+                      wx.showToast({
+                        title: '登录失败!',
+                        icon: 'none',
+                        duration: 10000,
+                        success: function (res) {
+                          //  同步清理本地缓存
+                          wx.clearStorageSync();
+                          wx.switchTab({
+                            url: '/pages/home/home'
+                          })
+                        }
+                      });
                     }
-                    //console.log(wx.getStorageSync("user"));
-                   wx.navigateBack({})
                   });
                 } else {
                   wx.showToast({
@@ -97,10 +130,6 @@ App({
 
       }
     });
-    //   },
-
-    // });
-
   },
 
   /**
